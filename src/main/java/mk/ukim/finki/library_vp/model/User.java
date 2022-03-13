@@ -24,6 +24,10 @@ public class User implements UserDetails {
 
     private String surname;
 
+    //mark as read
+    @ManyToMany
+    private List<Book> readBooks;
+
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired =  true;
