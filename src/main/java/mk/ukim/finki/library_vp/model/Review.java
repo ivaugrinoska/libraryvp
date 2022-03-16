@@ -4,6 +4,8 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -14,6 +16,8 @@ public class Review {
     private Long id;
 
     private String text;
+
+    private LocalDate dateWritten;
 
     @ManyToOne
     @NotNull
@@ -30,5 +34,6 @@ public class Review {
         this.text = text;
         this.user = user;
         this.book = book;
+        this.dateWritten=LocalDate.now();
     }
 }
