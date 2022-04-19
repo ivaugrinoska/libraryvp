@@ -2,6 +2,7 @@ package mk.ukim.finki.library_vp.service;
 
 import mk.ukim.finki.library_vp.model.Book;
 import mk.ukim.finki.library_vp.model.Category;
+import mk.ukim.finki.library_vp.model.User;
 import org.springframework.data.domain.Page;
 
 import java.awt.print.Pageable;
@@ -17,5 +18,7 @@ public interface BookService {
     List<Book> searchByCategory(Category category);
 
     List<Book> findFirst10(Category c);
+
+    void markAsRead(Long bookId, User user);
 
 }

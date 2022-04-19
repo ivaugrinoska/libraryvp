@@ -8,9 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller("/carts")
+@Controller
+@RequestMapping("/reservations")
 public class ReservationCartController {
 
     private final ReservationCartServiceImpl reservationCartService;
@@ -36,4 +37,18 @@ public class ReservationCartController {
         model.addAttribute("currentCart",cart);
         return "reservationCart";
     }
+
+//    @GetMapping("/new/{id}")
+//    public String addBookToReservationCartPage(@PathVariable Long id, Model model)
+//    {
+//
+//    }
+//
+//    @PostMapping("/new")
+//    public String addBookToReservationCartPage(@RequestParam Long bookId,
+//                                               @RequestParam Integer quantity)
+//    {
+            //dodaj vo reservation cart nov zapis, pa vo reservation_cart_books novi knigi
+//        return "redirect:/books"+bookId;
+//    }
 }

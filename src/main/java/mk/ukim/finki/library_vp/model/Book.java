@@ -24,6 +24,8 @@ public class Book {
     @Column(length = 4000)
     private String description;
 
+    private String url;
+
     @ManyToOne
     @NotNull
     private Category category;

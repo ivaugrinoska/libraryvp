@@ -33,7 +33,7 @@
     <nav class="tm-nav" id="tm-nav">
       <h2 align="center">КАТЕГОРИИ</h2>
       <ul>
-        <li th:each="cat: ${categories}" class="tm-nav-item"><a th:href="@{'/categories/{id}' (id=${cat.getId()})}" th:text="${cat.getName()}" class="tm-nav-link">
+        <li th:each="cat: ${categories}" class="tm-nav-item"><a th:href="@{'/books/search/{id}' (id=${cat.getId()})}" th:text="${cat.getName()}" class="tm-nav-link">
           <i class="fas fa-home"></i>
         </a></li>
       </ul>
@@ -61,13 +61,13 @@
     <!-- Search form -->
     <div class="row tm-row">
       <div class="col-12">
-        <form method="GET" class="form-inline tm-mb-80 tm-search-form">
-          <input class="form-control tm-search-input" name="query" type="text" placeholder="Пребарај по наслов/автор......" aria-label="Search">
+        <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
+          <input class="form-control tm-search-input" name="authorOrTitle" type="text" placeholder="Пребарај по наслов/автор..." aria-label="Search">
           <button class="tm-search-button" type="submit">
-
-            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+            <span class="glyphicon glyphicon-search"></span>
           </button>
         </form>
+
       </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -89,10 +89,11 @@
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Navbar brand -->
-          <a class="navbar-brand mt-2 mt-lg-0" th:href="@{/}">
+          <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
             <img
-                    th:src="@{/src/main/resources/static/Friends logo.jpg}"
-                    height="15"
+                    src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
+                    height="55"
+                    width="50"
                     alt="Library Logo"
                     loading="lazy"
             />
@@ -105,7 +106,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Најизнајмувани</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" th:href="@{/help}">Помош</a>
             </li>
           </ul>
@@ -116,15 +117,16 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
           <!-- Icon -->
-          <a class="text-reset me-3" href="#">
+          <a class="text-reset me-3" href="#" f>
             <i class="fas fa-shopping-cart"></i>
           </a>
 
           <!-- Notifications -->
-          <div class="dropdown">
-            <a href="#" style="margin-right: 5px">
+          <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
+          <div class="dropdown"> <button class="dropbtn">
+            <a th:href="@{/carts/current}" style="margin-right: 5px">
               <span class="glyphicon glyphicon-shopping-cart"></span>
-            </a>
+            </a></button>
             <ul
                     class="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
@@ -141,19 +143,21 @@
             </ul>
           </div>
           <!-- Avatar -->
+          <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
           <div class="dropdown">
-            <button class="dropbtn"> <a href="#">
+            <button class="dropbtn"> <a>
               <span class="glyphicon glyphicon-user"></span>
             </a></button>
             <div class="dropdown-content">
-              <a href="#">Профил</a>
+              <a th:href="@{/users/profile}">Профил</a>
               <a href="#">Одјава</a>
             </div>
           </div>
-        <!-- Right elements -->
+
+          <!-- Right elements -->
+        </div>
+        <!-- Container wrapper -->
       </div>
-      </div>
-      <!-- Container wrapper -->
     </nav>
 
     <div class="row tm-row tm-mb-45">

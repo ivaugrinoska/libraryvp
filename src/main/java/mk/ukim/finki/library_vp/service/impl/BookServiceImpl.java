@@ -2,14 +2,13 @@ package mk.ukim.finki.library_vp.service.impl;
 
 import mk.ukim.finki.library_vp.model.Book;
 import mk.ukim.finki.library_vp.model.Category;
+import mk.ukim.finki.library_vp.model.User;
 import mk.ukim.finki.library_vp.model.exceptions.BookNotFoundException;
-import mk.ukim.finki.library_vp.model.exceptions.CategoryNotFoundException;
 import mk.ukim.finki.library_vp.repository.BookRepository;
 import mk.ukim.finki.library_vp.service.BookService;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -38,7 +37,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> searchByCategory(Category category) {
-         return bookRepository.findAllByCategory(category);
+        return bookRepository.findAllByCategory(category);
     }
 
     @Override
@@ -46,5 +45,9 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findFirst10ByCategory(c);
     }
 
+    @Override
+    public void markAsRead(Long bookId, User user) {
 
+
+    }
 }
