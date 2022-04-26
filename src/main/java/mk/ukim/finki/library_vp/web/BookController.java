@@ -31,7 +31,9 @@ public class BookController {
     @GetMapping("/topRated")
     public String topRatedPage(Model model){
         model.addAttribute("categories",this.categoryService.findAll());
-        return "topRated";
+        model.addAttribute("books",this.bookService.findTopRated());
+        model.addAttribute("bodyContent", "topRated");
+        return "master-template";
     }
 
     @GetMapping("/{id}")
@@ -40,8 +42,10 @@ public class BookController {
         Book selectedBook = bookService.findBookById(id);
         model.addAttribute("selectedBook",selectedBook);
         model.addAttribute("reviews",this.reviewService.findReviewsByBook(selectedBook));
-        model.addAttribute("relatedBooks",this.bookService.findFirst10(selectedBook.getCategory()));
-        return "bookDetails";
+        model.addAttribute("relatedBooks",this.
+                bookService.findFirst10(selectedBook.getCategory()));
+        model.addAttribute("bodyContent", "bookDetails");
+        return "master-template";
 
     }
 
@@ -60,7 +64,8 @@ public class BookController {
         Category category = categoryService.findCategoryById(id);
         model.addAttribute("books",bookService.searchByCategory(category));
         model.addAttribute("categories",this.categoryService.findAll());
-        return "allBooks";
+        model.addAttribute("bodyContent", "allBooks");
+        return "master-template";
     }
 
     @PostMapping("/addReview")
@@ -78,6 +83,4 @@ public class BookController {
         this.bookService.markAsRead(bookId,user);
         return "redirect:/books/"+bookId;
     }
-
-
 }

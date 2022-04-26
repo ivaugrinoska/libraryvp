@@ -1,61 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xtra Blog</title>
-  <link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="../static/stylesheet.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <style th:replace="fragments/styling">
+<body xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-  </style>
-
-  <!--
-
-  TemplateMo 553 Xtra Blog
-
-  https://templatemo.com/tm-553-xtra-blog
-
-  -->
-</head>
-<body>
-<header class="tm-header" id="tm-header">
-  <div class="tm-header-wrapper">
-
-    <nav class="tm-nav" id="tm-nav">
-      <h2 align="center">КАТЕГОРИИ</h2>
-      <ul>
-        <li th:each="cat: ${categories}" class="tm-nav-item"><a th:href="@{'/books/search/{id}' (id=${cat.getId()})}" th:text="${cat.getName()}" class="tm-nav-link">
-          <i class="fas fa-home"></i>
-        </a></li>
-      </ul>
-    </nav>
-
-    <div class="tm-mb-65">
-      <a rel="nofollow" href="https://fb.com/templatemo" class="tm-social-link">
-        <i class="fab fa-facebook tm-social-icon"></i>
-      </a>
-      <a href="https://twitter.com" class="tm-social-link">
-        <i class="fab fa-twitter tm-social-icon"></i>
-      </a>
-      <a href="https://instagram.com" class="tm-social-link">
-        <i class="fab fa-instagram tm-social-icon"></i>
-      </a>
-      <a href="https://linkedin.com" class="tm-social-link">
-        <i class="fab fa-linkedin tm-social-icon"></i>
-      </a>
-    </div>
-
-  </div>
-</header>
 <div class="container-fluid">
   <main class="tm-main">
     <!-- Search form -->
@@ -123,7 +67,7 @@
 
           <!-- Notifications -->
           <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
-          <div class="dropdown"> <button class="dropbtn">
+          <div class="dropdown"> <button sec:authorize="isAuthenticated()" class="dropbtn">
             <a th:href="@{/reservations/current}" style="margin-right: 5px">
               <span class="glyphicon glyphicon-shopping-cart"></span>
             </a></button>
@@ -159,136 +103,30 @@
         <!-- Container wrapper -->
       </div>
     </nav>
-    <div class="row tm-row tm-mb-45">
-      <div class="col-12">
-        <hr class="tm-hr-primary tm-mb-55">
-        <img src="../static/about-01.jpg" alt="Image" class="img-fluid">
-      </div>
+
+    <div class="row tm-row">
+      <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
+        <hr class="tm-hr-primary">
+        <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">
+          <div class="tm-post-link-inner">
+
+            <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"
+                 class="img-fluid">
+          </div>
+          <span class="position-absolute tm-new-badge">Recommended</span>
+          <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>
+        </a>
+        <div class="d-flex justify-content-between tm-pt-45">
+          <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>
+          <!--                    <span class="tm-color-primary">June 24, 2020</span>-->
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <span th:text="${book.getStock()}"></span>
+          <span th:text="${book.getRating()}"></span>
+        </div>
+      </article>
     </div>
-    <div class="row tm-row tm-mb-40">
-      <div class="col-12">
-        <div class="mb-4">
-          <h2 class="pt-2 tm-mb-40 tm-color-primary tm-post-title">About this xtra blog</h2>
-          <p>
-            You can immediately download
-            <a rel="nofollow" href="https://templatemo.com/tm-553-xtra-blog" target="_blank">Xtra Blog Template</a>
-            from TemplateMo website for 100% free of charge. Etiam vehicula, tortor ac eleifend tincidunt, diam neque pellentesque ipsum,
-            a geugiat eros mauris eget lorem. Quisque in
-            bibendum elit, in egestas turpis. Vestibulum ornare sollicitudin congue. Aliquam lorem mi, maximus at iaculis ut, viverra vel
-            mauris. Duis congue luctus metus, sodales tincidunt lectus fringilla ut. Nunc tempus at magna sed vestibulum.
-          </p>
-          <p>
-            Proin et arcu ligula. Praesent quis erat eu est solliditudin tristique ut in arcu. Donec bibendum ex id ligula semper dictum.
-            Proin malesuada luctus auctor. Suspendisse ullamcorper, mi vel molestie ornare, arcu magna euismod ipsum, in
-            malesuada nulla magna ut enim. Morbi lacinia magna sed sapien auctor, vitae luctus nunc cursus.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row tm-row tm-mb-120">
-      <div class="col-lg-4 tm-about-col">
-        <div class="tm-bg-gray tm-about-pad">
-          <div class="text-center tm-mt-40 tm-mb-60">
-            <i class="fas fa-bezier-curve fa-4x tm-color-primary"></i>
-          </div>
-          <h2 class="mb-3 tm-color-primary tm-post-title">Background</h2>
-          <p class="mb-0 tm-line-height-short">
-            Phasellus pulvinar nisl ornare leo porttitor, et vestibulum lorem semper.
-            Duis risus ex, molestie sit amet magna in,
-            pharetra pellentesque est. Curabitur elit metus.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-4 tm-about-col">
-        <div class="tm-bg-gray tm-about-pad">
-          <div class="text-center tm-mt-40 tm-mb-60">
-            <i class="fas fa-users-cog fa-4x tm-color-primary"></i>
-          </div>
-          <h2 class="mb-3 tm-color-primary tm-post-title">Teamwork</h2>
-          <p class="mb-0 tm-line-height-short">
-            Suspendisse ullamcorper, mi vel molestie ornare, arcu magna euismod ipsum, in malesuada nulla magna ut enim.
-            Morbi lacinia magna sed auctor, vitae nunc cursus.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-4 tm-about-col">
-        <div class="tm-bg-gray tm-about-pad">
-          <div class="text-center tm-mt-40 tm-mb-60">
-            <i class="fab fa-creative-commons-sampling fa-4x tm-color-primary"></i>
-          </div>
-          <h2 class="mb-3 tm-color-primary tm-post-title">Our Core Value</h2>
-          <p class="mb-0 tm-line-height-short">
-            Nunc mi ante, suscipit vel dapibus et, volutpat sit amet ante. In tempor nec sem vitae varius. Aliquam tincidunt orci sem, et imperdiet massa consectetur nec.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row tm-row tm-mb-60">
-      <div class="col-12">
-        <hr class="tm-hr-primary  tm-mb-55">
-      </div>
-      <div class="col-lg-6 tm-mb-60 tm-person-col">
-        <div class="media tm-person">
-          <img src="../static/about-02.jpg" alt="Image" class="img-fluid mr-4">
-          <div class="media-body">
-            <h2 class="tm-color-primary tm-post-title mb-2">John Henry</h2>
-            <h3 class="tm-h3 mb-3">CEO/Founder</h3>
-            <p class="mb-0 tm-line-height-short">
-              Aliquam non vulputate lectus, vel ultricies diam. Suspendisse at ipsum
-              hendrerit, vestibulum mi id, mattis tortor.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 tm-mb-60 tm-person-col">
-        <div class="media tm-person">
-          <img src="../static/about-03.jpg" alt="Image" class="img-fluid mr-4">
-          <div class="media-body">
-            <h2 class="tm-color-primary tm-post-title mb-2">Timy Cake</h2>
-            <h3 class="tm-h3 mb-3">Project Director</h3>
-            <p class="mb-0 tm-line-height-short">
-              Quisque in bibendum elit, in egestas turpis. Vestibulum ornare sollicitudin congue.
-              Aliquam lorem mi, maximus at iaculis ut.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 tm-mb-60 tm-person-col">
-        <div class="media tm-person">
-          <img src="../static/about-04.jpg" alt="Image" class="img-fluid mr-4">
-          <div class="media-body">
-            <h2 class="tm-color-primary tm-post-title mb-2">Jay Zoona</h2>
-            <h3 class="tm-h3 mb-3">Supervisor</h3>
-            <p class="mb-0 tm-line-height-short">
-              Maecenas eu mi eu dui cursus consequat non eu metus. Morbi ac
-              turpis eleifend, commodo purus eget, commodo mauris.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 tm-mb-60 tm-person-col">
-        <div class="media tm-person">
-          <img src="../static/about-05.jpg" alt="Image" class="img-fluid mr-4">
-          <div class="media-body">
-            <h2 class="tm-color-primary tm-post-title mb-2">Catherine Soft</h2>
-            <h3 class="tm-h3 mb-3">Team Leader</h3>
-            <p class="mb-0 tm-line-height-short">
-              Integer eu sapien hendrerit,
-              imperdiet arcu sit amet, sollicitudin ipsum.
-              Phasellus consequat suscipit ligula eget bibendum.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <footer class="row tm-row">
-      <div class="col-md-6 col-12 tm-color-gray">
-        Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
-      </div>
-      <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-        Copyright 2020 Xtra Blog Company Co. Ltd.
-      </div>
-    </footer>
   </main>
 </div>
 <script src="js/jquery.min.js"></script>

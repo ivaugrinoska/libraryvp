@@ -23,7 +23,8 @@ public class HomeController {
     public String getHomePage(Model model){
         model.addAttribute("categories",this.categoryService.findAll());
         model.addAttribute("books",this.bookService.findAll());
-        return "allBooks";
+        model.addAttribute("bodyContent", "allBooks");
+        return "master-template";
     }
 
     @GetMapping("/help")

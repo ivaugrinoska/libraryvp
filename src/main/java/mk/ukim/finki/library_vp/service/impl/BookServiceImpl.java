@@ -9,6 +9,7 @@ import mk.ukim.finki.library_vp.service.BookService;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException());
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @Override
@@ -49,5 +50,10 @@ public class BookServiceImpl implements BookService {
     public void markAsRead(Long bookId, User user) {
 
 
+    }
+
+    @Override
+    public List<Book> findTopRated() {
+        return this.bookRepository.findTop3ByOrderByRatingDesc();
     }
 }

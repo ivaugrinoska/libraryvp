@@ -1,52 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xtra Blog</title>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/stylesheet.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <style th:replace="fragments/styling">
-
-    </style>
-
-</head>
-<body>
-<header class="tm-header" id="tm-header">
-    <div class="tm-header-wrapper">
-
-        <nav class="tm-nav" id="tm-nav">
-            <h2 align="center">КАТЕГОРИИ</h2>
-            <ul>
-                <li th:each="cat: ${categories}" class="tm-nav-item"><a th:href="@{'/books/search/{id}' (id=${cat.getId()})}" th:text="${cat.getName()}" class="tm-nav-link">
-                    <i class="fas fa-home"></i>
-                </a></li>
-            </ul>
-        </nav>
-
-    </div>
-</header>
 <div class="container-fluid">
     <main class="tm-main">
         <!-- Search form -->
         <div class="row tm-row">
             <div class="col-12">
                 <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
-                    <input class="form-control tm-search-input" name="authorOrTitle" type="text" placeholder="Пребарај по наслов/автор..." aria-label="Search">
+                    <input class="form-control tm-search-input" name="authorOrTitle" type="text"
+                           placeholder="Пребарај по наслов/автор..." aria-label="Search">
                     <button class="tm-search-button" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </form>
-
             </div>
         </div>
 
@@ -103,44 +68,50 @@
                     </a>
 
                     <!-- Notifications -->
-<!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
-                    <div class="dropdown" sec:authorize="isAuthenticated()"> <button class="dropbtn">
-                        <a th:href="@{/carts/current}" style="margin-right: 5px">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a></button>
-                    </div>
+                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
+<!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
+                        <button sec:authorize="isAuthenticated()" class="dropbtn" >
+                            <a th:href="@{/reservations/current}" style="margin-right: 5px">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                            </a></button>
+<!--                    </div>-->
                     <!-- Avatar -->
-<!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
-                    <div class="dropdown" sec:authorize="isAuthenticated()">
+                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
+<!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
+                    <div class="dropdown">
                         <button class="dropbtn"> <a>
                             <span class="glyphicon glyphicon-user"></span>
                         </a></button>
                         <div class="dropdown-content">
-                            <a href="/users/profile">Профил</a>
-                            <a href="/logout">Одјава</a>
+                            <a th:href="@{/users/profile}">Профил</a>
+                            <a href="#">Одјава</a>
                         </div>
                     </div>
 
-                <!-- Right elements -->
-            </div>
-            <!-- Container wrapper -->
+                    <!--                    </div>-->
+
+                    <!-- Right elements -->
+                </div>
+                <!-- Container wrapper -->
             </div>
         </nav>
-<!--        end-->
+        <!--        end-->
 
         <div class="row tm-row">
             <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
                 <hr class="tm-hr-primary">
                 <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">
                     <div class="tm-post-link-inner">
-                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image" class="img-fluid">
+
+                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"
+                             class="img-fluid">
                     </div>
                     <span class="position-absolute tm-new-badge">Recommended</span>
                     <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>
                 </a>
                 <div class="d-flex justify-content-between tm-pt-45">
                     <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>
-<!--                    <span class="tm-color-primary">June 24, 2020</span>-->
+                    <!--                    <span class="tm-color-primary">June 24, 2020</span>-->
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">
@@ -174,40 +145,7 @@
                     </ul>
                 </nav>
             </div>
-
-<!--                    <ul class="tm-social-links">-->
-<!--                        <li class="mb-2">-->
-<!--                            <a href="https://facebook.com" class="d-flex align-items-center justify-content-center">-->
-<!--                                <i class="fab fa-facebook"></i>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li class="mb-2">-->
-<!--                            <a href="https://twitter.com" class="d-flex align-items-center justify-content-center">-->
-<!--                                <i class="fab fa-twitter"></i>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li class="mb-2">-->
-<!--                            <a href="https://youtube.com" class="d-flex align-items-center justify-content-center">-->
-<!--                                <i class="fab fa-youtube"></i>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li class="mb-2">-->
-<!--                            <a href="https://instagram.com" class="d-flex align-items-center justify-content-center mr-0">-->
-<!--                                <i class="fab fa-instagram"></i>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-
-                </div>
-<!--            </div>-->
-
-<!--        </div>-->
-        <footer class="row tm-row">
-            <hr class="col-12">
-            <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-                Copyright 2020 Xtra Blog Company Co. Ltd.
-            </div>
-        </footer>
+        </div>
     </main>
 </div>
 <script src="js/jquery.min.js"></script>

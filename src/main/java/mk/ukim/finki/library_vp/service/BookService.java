@@ -21,4 +21,6 @@ public interface BookService {
 
     void markAsRead(Long bookId, User user);
 
+    List<Book> findTopRated();
+
 }
