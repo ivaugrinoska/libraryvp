@@ -8,6 +8,7 @@ import mk.ukim.finki.library_vp.model.exceptions.BookNotFoundException;
 import mk.ukim.finki.library_vp.model.exceptions.ReservationCartNotFoundException;
 import mk.ukim.finki.library_vp.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.library_vp.repository.BookRepository;
+import mk.ukim.finki.library_vp.repository.ReservationCartBooksRepository;
 import mk.ukim.finki.library_vp.repository.ReservationCartRepository;
 import mk.ukim.finki.library_vp.repository.UserRepository;
 import mk.ukim.finki.library_vp.service.ReservationCartService;
@@ -22,12 +23,16 @@ public class ReservationCartServiceImpl implements ReservationCartService {
     private final ReservationCartRepository reservationCartRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final ReservationCartBooksRepository reservationCartBooksRepository;
 
-    public ReservationCartServiceImpl(ReservationCartRepository reservationCartRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public ReservationCartServiceImpl(ReservationCartRepository reservationCartRepository, UserRepository userRepository, BookRepository bookRepository, ReservationCartBooksRepository reservationCartBooksRepository) {
         this.reservationCartRepository = reservationCartRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+        this.reservationCartBooksRepository = reservationCartBooksRepository;
     }
+
+
 
     @Override
     public ReservationCart findCartByUser(User user) {
@@ -36,6 +41,11 @@ public class ReservationCartServiceImpl implements ReservationCartService {
         }
         else
             return reservationCartRepository.save(new ReservationCart(user));
+    }
+
+    @Override
+    public ReservationCart findById(Long id) {
+        return this.reservationCartRepository.findById(id).get();
     }
 
     @Override
@@ -85,7 +95,7 @@ public class ReservationCartServiceImpl implements ReservationCartService {
     }
 
     @Override
-    public void checkout() {
+    public void checkout(Long id) {
         List<Book> books = this.bookRepository.findAll();
 
         for(int i = 0; i < books.size(); i++) {
@@ -93,6 +103,7 @@ public class ReservationCartServiceImpl implements ReservationCartService {
         }
 
         books = this.bookRepository.saveAll(books);
+//        this.reservationCartBooksRepository.deleteAllByResCartId(id);
 
     }
 

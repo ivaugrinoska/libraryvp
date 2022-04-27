@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface ReservationCartService {
     ReservationCart findCartByUser(User user);
+    ReservationCart findById(Long id);
     ReservationCart addBookToReservationCart(String username, Long bookId);
     ReservationCart getActiveReservationCart(String username);
     List<Book> listAllBooksInReservationCart(Long id);
-    void checkout();
+    void checkout(Long id);
 }

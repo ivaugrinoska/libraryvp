@@ -119,8 +119,8 @@
                     </div>
                 </div>
             </div>
-            <form  th:action="@{'/reservations/delete'}"
-                   th:method="POST">
+            <form  th:action="@{'/reservations/delete/{id}' (id=${reservationCart.getId()})}"
+                   th:method="DELETE">
                 <button class="tm-btn-primary" type="submit">Checkout</button>
             </form>
         </div>
