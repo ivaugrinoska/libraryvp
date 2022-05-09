@@ -59,7 +59,7 @@ public class ReservationCartController {
 //        ReservationCart reservationCart = this.reservationCartService.findById(id);
 //        model.addAttribute("reservationCart", reservationCart);
         User user = (User) authentication.getPrincipal();
-        String username = req.getRemoteUser();
+        String username = user.getUsername();
         ReservationCart reservationCart = this.reservationCartService.findCartByUser(user);
         model.addAttribute("books", this.reservationCartService.
                 listAllBooksInReservationCart(reservationCart.getId()));
@@ -106,9 +106,9 @@ public class ReservationCartController {
 //            this.reservationCartService.checkout(id);
             this.reservationCartBooksService.deleteAllByResCartId(id);
             return "redirect:/reservations/current";
-        } catch(RuntimeException exception) {
-            return "redirect:/reservations/current?error=" + exception.getMessage();
-        }
+       } catch(RuntimeException exception) {
+           return "redirect:/reservations/current?error=" + exception.getMessage();
+       }
     }
 
 

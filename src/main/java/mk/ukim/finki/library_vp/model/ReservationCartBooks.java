@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "res_users_read_books",
+@Table(name = "reservation_cart_books",
         schema = "public", catalog = "library")
 @IdClass(ReservationCartBooksPK.class)
 public class ReservationCartBooks {

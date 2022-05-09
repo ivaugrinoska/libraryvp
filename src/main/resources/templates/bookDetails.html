@@ -1,5 +1,26 @@
-<body xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
+<!--<head xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title></title>-->
+<!--    <link th:href="@{/css/ss.css}" rel="stylesheet"/>-->
+<!--</head>-->
+<style>
+    .rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .rating-stars span {
+        cursor: pointer;
+    }
+    .rating-stars:not(:hover) span.selected,
+    .rating-stars span:hover,
+    .rating-stars span:hover ~ span {
+        color: rgb(247, 202, 24);
+    }
+</style>
+
+<body xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container-fluid">
     <main class="tm-main">
         <!-- Search form -->
@@ -48,7 +69,7 @@
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Најизнајмувани</a>
+                            <a class="nav-link" th:href="@{/books/mostRented}">Најизнајмувани</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/help}">Помош</a>
@@ -68,7 +89,7 @@
                     <!-- Notifications -->
                     <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
                     <div class="dropdown"> <button sec:authorize="isAuthenticated()" class="dropbtn">
-                        <a th:href="@{/carts/current}" style="margin-right: 5px">
+                        <a th:href="@{/reservations/current}" style="margin-right: 5px">
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </a></button>
                         <ul
@@ -120,6 +141,14 @@
                         <img th:src="${selectedBook.getUrl()}" style="height: 400px;">
                         <p th:text="${selectedBook.getDescription()}">
                         </p>
+                        <div class="rating-stars">
+                            <input type="hidden" name="rating">
+                            <span data-rating="5">★</span>
+                            <span data-rating="4">★</span>
+                            <span data-rating="3">★</span>
+                            <span data-rating="2">★</span>
+                            <span data-rating="1">★</span>
+                        </div>
                        <p th:if="${selectedBook.getStock()>0}" th:text="'На залиха: '+${selectedBook.getStock}">
                         </p>
                         <p th:if="${selectedBook.getStock()==0}" th:text="Нема залиха" style="color: red;">
@@ -217,4 +246,27 @@
 </div>
 <script src="js/jquery.min.js"></script>
 <script src="../static/javascript-jquery.js"></script>
+<script>
+    let stars = document.querySelectorAll(".rating-stars span");
+    stars.forEach(star => {
+        star.addEventListener("click", function (e) {
+            let element = this.previousElementSibling;
+            while(element) {
+                element.classList.remove("selected");
+                element = element.previousElementSibling;
+            }
+
+            element = this.nextElementSibling;
+            while(element) {
+                element.classList.add("selected");
+                element = element.nextElementSibling;
+            }
+
+            this.classList.add("selected");
+
+            let rating = this.getAttribute("data-rating");
+            let input = this.parentElement.querySelector("input");
+        })
+    })
+</script>
 </body>

@@ -36,6 +36,15 @@ public class BookController {
         return "master-template";
     }
 
+    @GetMapping("/mostRented")
+    public String mostRatedPage(Model model){
+        model.addAttribute("categories",this.categoryService.findAll());
+        //model.addAttribute("books",this.bookService.findTopRated());
+        model.addAttribute("bodyContent", "mostRented");
+        return "master-template";
+    }
+
+
     @GetMapping("/{id}")
     public String selectedBookPage(Model model, @PathVariable Long id){
         model.addAttribute("categories",this.categoryService.findAll());

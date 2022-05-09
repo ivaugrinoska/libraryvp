@@ -1,10 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<body xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
+<div class="container-fluid">
+    <main class="tm-main">
+        <!-- Search form -->
+        <div class="row tm-row">
+            <div class="col-12">
+                <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
+                    <input class="form-control tm-search-input" name="authorOrTitle" type="text" placeholder="Пребарај по наслов/автор..." aria-label="Search">
+                    <button class="tm-search-button" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
+                        <img
+                                src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
+                                height="55"
+                                width="50"
+                                alt="Library Logo"
+                                loading="lazy"
+                        />
+                    </a>
+                    <!-- Left links -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Најизнајмувани</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                        </li>
+                    </ul>
+                    <!-- Left links -->
+                </div>
+                <!-- Collapsible wrapper -->
+
+                <!-- Right elements -->
+                <div class="d-flex align-items-center">
+                    <!-- Icon -->
+                    <a class="text-reset me-3" href="#" f>
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+
+                    <!-- Notifications -->
+                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
+                    <div class="dropdown"> <button sec:authorize="isAuthenticated()" class="dropbtn">
+                        <a th:href="@{/reservations/current}" style="margin-right: 5px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </a></button>
+                        <ul
+                                class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdownMenuLink"
+                        >
+                            <li>
+                                <a class="dropdown-item" href="#">Some news</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Another news</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Avatar -->
+                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
+                    <div class="dropdown">
+                        <button class="dropbtn"> <a>
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a></button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/users/profile}">Профил</a>
+                            <a href="#">Одјава</a>
+                        </div>
+                    </div>
+
+                    <!-- Right elements -->
+                </div>
+                <!-- Container wrapper -->
+            </div>
+        </nav>
+
+        <div class="row tm-row">
+            <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
+                <hr class="tm-hr-primary">
+                <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">
+                    <div class="tm-post-link-inner">
+
+                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"
+                             class="img-fluid">
+                    </div>
+                    <span class="position-absolute tm-new-badge">Recommended</span>
+                    <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>
+                </a>
+                <div class="d-flex justify-content-between tm-pt-45">
+                    <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>
+                    <!--                    <span class="tm-color-primary">June 24, 2020</span>-->
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span th:text="${book.getStock()}"></span>
+                    <span th:text="${book.getRating()}"></span>
+                </div>
+            </article>
+        </div>
+    </main>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="../static/javascript-jquery.js"></script>
 </body>
 </html>
