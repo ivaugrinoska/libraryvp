@@ -25,6 +25,8 @@ public class Book {
 
     private String url;
 
+    private int counter;
+
     @ManyToOne
     @NotNull
     private Category category;
@@ -40,7 +42,12 @@ public class Book {
         this.rating = rating;
         this.description = description;
         this.url = url;
+        this.counter = 1;
     }
 
+    public void rate(float rating) {
+        counter = counter + 1;
+        this.rating = ((counter-1)*this.rating + rating)/counter;
+    }
 }
 

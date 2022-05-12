@@ -132,14 +132,38 @@
                         <img th:src="${selectedBook.getUrl()}" style="height: 400px;">
                         <p th:text="${selectedBook.getDescription()}">
                         </p>
-                        <div class="rating-stars">
-                            <input type="hidden" name="rating">
-                            <span data-rating="5">★</span>
-                            <span data-rating="4">★</span>
-                            <span data-rating="3">★</span>
-                            <span data-rating="2">★</span>
-                            <span data-rating="1">★</span>
-                        </div>
+<!--                        <div class="rating-stars">-->
+<!--                            <input type="hidden" name="rating">-->
+<!--                            <span data-rating="5">★</span>-->
+<!--                            <span data-rating="4">★</span>-->
+<!--                            <span data-rating="3">★</span>-->
+<!--                            <span data-rating="2">★</span>-->
+<!--                            <span data-rating="1">★</span>-->
+<!--                        </div>-->
+                        <form style="margin-bottom: 10px"
+                              th:action="@{'/books/rating/{id}'
+                                  (id=${selectedBook.getId()})}" th:method="POST">
+                            <!--                                  sec:authorize="isAuthenticated()">-->
+                            <div class="d-flex justify-content-end">
+                                <div class="form-group" style="">
+                                    <p>Average Rating:
+                                        <span th:text="${selectedBook.getRating()}">
+                                    </span></p>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="ratingNum"
+                                           name="ratingNum"
+                                           min="1" max="5"
+                                           style="width:87px"
+                                    >
+                                    <button type="submit"
+                                            class="tm-btn tm-btn-primary tm-btn-small"
+                                            style="margin-top: 15px">
+                                        Rate
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                        <p th:if="${selectedBook.getStock()>0}" th:text="'На залиха: '+${selectedBook.getStock}">
                         </p>
                         <p th:if="${selectedBook.getStock()==0}" th:text="Нема залиха" style="color: red;">

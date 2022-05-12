@@ -94,4 +94,13 @@ public class BookServiceImpl implements BookService {
         return this.bookRepository.findTop3ByOrderByRatingDesc();
     }
 
+    @Override
+    public Book rating(float num, long id) {
+        Book book = this.bookRepository.findById(id).get();
+
+        book.rate(num);
+
+        return this.bookRepository.save(book);
+    }
+
 }

@@ -131,4 +131,10 @@ public class BookController {
         return "redirect:/books";
     }
 
+    @PostMapping("/rating/{bookId}")
+    public String rate(@PathVariable Long bookId, @RequestParam float ratingNum) {
+        this.bookService.rating(ratingNum, bookId);
+        return "redirect:/books/" + bookId;
+    }
+
 }

@@ -33,4 +33,6 @@ public interface BookService {
 
     List<Book> findTopRated();
 
+    Book rating(float num, long id);
+
 }
