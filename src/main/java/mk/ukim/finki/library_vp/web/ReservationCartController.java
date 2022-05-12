@@ -51,6 +51,7 @@ public class ReservationCartController {
     public String getReservationCartPage(@RequestParam(required = false) String error,
                                       HttpServletRequest req,
                                       Model model, Authentication authentication) {
+
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);

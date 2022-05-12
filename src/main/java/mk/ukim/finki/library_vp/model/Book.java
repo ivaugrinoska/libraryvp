@@ -21,7 +21,6 @@ public class Book {
 
     private float rating;
 
-    @Column(length = 4000)
     private String description;
 
     private String url;
@@ -34,12 +33,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(String name, String author, int stock, float rating, String description) {
+    public Book(String name, String author, int stock, float rating, String description, String url) {
         this.name = name;
         this.author = author;
         this.stock = stock;
         this.rating = rating;
         this.description = description;
+        this.url = url;
     }
 
 }

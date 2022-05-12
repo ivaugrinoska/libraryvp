@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/stylesheet.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style th:replace="styling.html">
+    </style>
+    <title>Додади книга</title>
+</head>
+
+<body xmlns:th="http://www.w3.org/1999/xhtml">
+
+<header class="tm-header" id="tm-header">
+    <div class="tm-header-wrapper">
+        <nav class="tm-nav" id="tm-nav">
+        </nav>
+    </div>
+</header>
+
+<div class="container-fluid">
+    <main class="tm-main">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand mt-2 mt-lg-0 active">
+                        <img
+                                src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
+                                height="55"
+                                width="50"
+                                alt="Library Logo"
+                                loading="lazy"
+                        />
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </main>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-5">
+            <form th:method="POST" th:action="@{/books/add-book}">
+                <input id="id" type="hidden" name="id" th:value="(${selectedBook} != null ? ${selectedBook.getId()} : '')">
+
+                <div class="form-group">
+                    <label for="bookUrl">Слика</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookUrl"
+                           name="bookUrl"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getUrl()} : '')"
+                           required
+                           placeholder="Enter book image">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookName">Име</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookName"
+                           name="bookName"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getName()} : '')"
+                           required
+                           placeholder="Enter book name">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookAuthor">Автор</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookAuthor"
+                           name="bookAuthor"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getAuthor()} : '')"
+                           required
+                           placeholder="Enter book author">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookDescription">Опис</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookDescription"
+                           name="bookDescription"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getDescription()} : '')"
+                           required
+                           placeholder="Enter description for this book">
+                </div>
+               <!-- ova ke go trgneme koga ke smenime vo bazata-->
+                <div class="form-group">
+                    <label for="bookRating">Rating</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookRating"
+                           name="bookRating"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getRating()} : '')"
+                           required
+                           placeholder="Enter rating">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookStock">Количина</label>
+                    <input type="text"
+                           class="form-control"
+                           id="bookStock"
+                           name="bookStock"
+                           th:value="(${selectedBook} != null ? ${selectedBook.getStock()} : '')"
+                           required
+                           placeholder="Enter stock">
+                </div>
+
+                <button id="addBookSubmit" type="submit" class="btn btn-secondary">Поднеси</button>
+                <a type="button" class="btn btn-secondary" th:href="@{/books}">Назад</a><br/><br/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="../static/javascript-jquery.js"></script>
+</body>
+</html>

@@ -1,10 +1,4 @@
-
-<!--<head xmlns:th="http://www.w3.org/1999/xhtml">-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title></title>-->
-<!--    <link th:href="@{/css/ss.css}" rel="stylesheet"/>-->
-<!--</head>-->
-<style>
+<style xmlns="http://www.w3.org/1999/html">
     .rating-stars {
         display: flex;
         flex-direction: row-reverse;
@@ -69,9 +63,6 @@
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/books/mostRented}">Најизнајмувани</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" th:href="@{/help}">Помош</a>
                         </li>
                     </ul>
@@ -82,7 +73,7 @@
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Icon -->
-                    <a class="text-reset me-3" href="#" f>
+                    <a class="text-reset me-3" href="#">
                         <i class="fas fa-shopping-cart"></i>
                     </a>
 
@@ -154,15 +145,10 @@
                         <p th:if="${selectedBook.getStock()==0}" th:text="Нема залиха" style="color: red;">
                         </p>
                         <span class="d-block text-left tm-color-primary" th:text="${selectedBook.getCategory().getName()}"></span>
-
-<!--                        <div class="text-right" style="margin-bottom: 10px">-->
-<!--                            <button  class="tm-btn tm-btn-primary tm-btn-small">Резервирај</button>-->
-<!--                        </div>-->
                         <div class="text-right" style="margin-bottom: 10px">
                             <th:block>
                             <form style="margin-bottom: 10px"
                                   th:action="@{'/reservations/add-book/{id}' (id=${selectedBook.getId()})}" th:method="POST">
-<!--                                  sec:authorize="isAuthenticated()">-->
                                 <button type="submit"
                                         class="tm-btn tm-btn-primary tm-btn-small">
                                     Резервирај
@@ -170,26 +156,22 @@
                             </form>
                             </th:block>
 
-<!--                            <a th:href="@{'/books/{id}' (id=${b.getId()})}" class="d-block tm-mb-40" th:each="b: ${relatedBooks}">-->
-<!--                                <figure>-->
-<!--                                    <img th:src="${b.getUrl()}" alt="Image" class="mb-3 img-fluid" style="height: 400px;">-->
-<!--                                    <figcaption class="tm-color-primary" th:text="${b.getName()}"></figcaption>-->
-<!--                                </figure>-->
-<!--                            </a>-->
-
-<!--                            <a th:href="@{'/books/{id}' (id=${b.getId()})}"></a>-->
-
-
                         </div>
-
-
 
                         <form method="post" action="/books/mark">
                         <div class="text-right">
                             <input type="hidden" name="bookId">
                             <button class="tm-btn tm-btn-primary tm-btn-small">Прочитана</button>
                         </div>
+                        </form></br>
+
+                        <form th:action="@{'/books/edit-book/{id}' (id=${selectedBook.getId()})}" th:method="GET">
+                            <div class="text-right">
+                                <input sec:authorize="hasRole('ROLE_LIBRARIAN')" type="hidden" name="bookId">
+                                <button sec:authorize="hasRole('ROLE_LIBRARIAN')" class="tm-btn tm-btn-primary tm-btn-small">Едитирај</button>
+                            </div>
                         </form>
+
                       </div>
 
                     <!-- Comments -->

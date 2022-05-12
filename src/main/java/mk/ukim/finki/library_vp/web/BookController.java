@@ -7,10 +7,13 @@ import mk.ukim.finki.library_vp.service.CategoryService;
 import mk.ukim.finki.library_vp.service.impl.BookServiceImpl;
 import mk.ukim.finki.library_vp.service.impl.ReviewServiceImpl;
 import mk.ukim.finki.library_vp.service.impl.UserServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/books")
@@ -35,15 +38,6 @@ public class BookController {
         model.addAttribute("bodyContent", "topRated");
         return "master-template";
     }
-
-    @GetMapping("/mostRented")
-    public String mostRatedPage(Model model){
-        model.addAttribute("categories",this.categoryService.findAll());
-        //model.addAttribute("books",this.bookService.findTopRated());
-        model.addAttribute("bodyContent", "mostRented");
-        return "master-template";
-    }
-
 
     @GetMapping("/{id}")
     public String selectedBookPage(Model model, @PathVariable Long id){
@@ -92,4 +86,49 @@ public class BookController {
         this.bookService.markAsRead(bookId,user);
         return "redirect:/books/"+bookId;
     }
+
+    // IVA
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Long id){
+        this.bookService.deleteById(id);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/edit-book/{id}")
+    public String editBook(@PathVariable Long id, Model model){
+        if (this.bookService.findById(id).isPresent()){
+            Book book = this.bookService.findById(id).get();
+            model.addAttribute("selectedBook", book);
+            return "addNewBook";
+        }
+        return "redirect:/books?error=BookNotFoundException";
+    }
+
+    @GetMapping("/add-new-book")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public String addNewBook(){
+        return "addNewBook";
+    }
+
+    @PostMapping("/add-book")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public String addBook(@RequestParam(required = false) Long id, HttpServletRequest req){
+
+        String bookName = req.getParameter("bookName");
+        int bookStock = Integer.parseInt(req.getParameter("bookStock"));
+        float bookRating = Float.parseFloat(req.getParameter("bookRating"));
+        String bookDescription = req.getParameter("bookDescription");
+        String bookUrl = req.getParameter("bookUrl");
+        String bookAuthor = req.getParameter("bookAuthor");
+        // Category bookCategory = req.getParameter("bookCategory");
+
+        if (id != null)
+            this.bookService.editBook(id, bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
+        else
+            this.bookService.addNewBook(bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
+
+        return "redirect:/books";
+    }
+
 }

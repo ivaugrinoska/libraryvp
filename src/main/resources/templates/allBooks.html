@@ -50,23 +50,20 @@
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/books/mostRented}">Најизнајмувани</a>
+                            <a class="nav-link" th:href="@{/help}">Помош</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                            <a class="nav-link" sec:authorize="hasRole('ROLE_LIBRARIAN')" th:href="@{/books/add-new-book}">Додади книга</a>
                         </li>
                     </ul>
                     <!-- Left links -->
                 </div>
-                <!-- Collapsible wrapper -->
-
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Icon -->
                     <a class="text-reset me-3" href="#" f>
                         <i class="fas fa-shopping-cart"></i>
                     </a>
-
                     <!-- Notifications -->
                     <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
 <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
@@ -84,19 +81,15 @@
                         </a></button>
                         <div class="dropdown-content">
                             <a th:href="@{/users/profile}">Профил</a>
-                            <a href="#">Одјава</a>
+                            <a href="/logout">Одјави се</a>
                         </div>
                     </div>
-
-                    <!--                    </div>-->
 
                     <!-- Right elements -->
                 </div>
                 <!-- Container wrapper -->
             </div>
         </nav>
-        <!--        end-->
-
         <div class="row tm-row">
             <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
                 <hr class="tm-hr-primary">
