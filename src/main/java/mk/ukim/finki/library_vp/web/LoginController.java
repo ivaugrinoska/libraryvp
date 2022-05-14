@@ -33,7 +33,7 @@ public class LoginController {
                         Model model) {
         User user = null;
         try{
-            user = this.authService.login(username,password);
+            user = this.authService.login(username, password);
             request.getSession().setAttribute("user", user);
             return "redirect:/books";
         }

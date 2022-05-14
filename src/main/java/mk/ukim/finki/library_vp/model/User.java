@@ -36,9 +36,6 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-//    private List<ReservationCart> carts;
-
     public User() {
     }
 

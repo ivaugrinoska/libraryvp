@@ -103,14 +103,35 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Категорија</label>
+                    <select name="category" class="form-control">
+                       <option th:if="${selectedBook} != null"
+                               th:selected="${selectedBook.getCategory() != null && selectedBook.getCategory().getId()}"
+                               th:each="cat : ${categories}"
+                               th:value="${cat.getId()}"
+                               th:text="${cat.getName()}">
+                       >
+                       </option>
+                        <option th:if="${selectedBook} == null"
+                                th:each="cat : ${categories}"
+                                th:value="${cat.getId()}"
+                                th:text="${cat.getName()}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="bookDescription">Опис</label>
-                    <input type="text"
-                           class="form-control"
-                           id="bookDescription"
-                           name="bookDescription"
-                           th:value="(${selectedBook} != null ? ${selectedBook.getDescription()} : '')"
-                           required
-                           placeholder="Enter description for this book">
+                    <textarea type="text"
+                              rows="4"
+                              cols="50"
+                              class="form-control"
+                              id="bookDescription"
+                              name="bookDescription"
+                              th:value="(${selectedBook} != null ? ${selectedBook.getDescription()} : '')"
+                              required
+                              placeholder="Enter description for this book">
+                    </textarea>
                 </div>
                <!-- ova ke go trgneme koga ke smenime vo bazata-->
                 <div class="form-group">

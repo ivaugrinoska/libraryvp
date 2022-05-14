@@ -1,12 +1,14 @@
 package mk.ukim.finki.library_vp.service.impl;
 
 import mk.ukim.finki.library_vp.model.Category;
+import mk.ukim.finki.library_vp.model.exceptions.CategoryByNameNotFoundException;
 import mk.ukim.finki.library_vp.model.exceptions.CategoryNotFoundException;
 import mk.ukim.finki.library_vp.repository.CategoryRepository;
 import mk.ukim.finki.library_vp.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -25,4 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public List<Category> listCategories() {
+        return categoryRepository.findAll();
+    }
+
 }

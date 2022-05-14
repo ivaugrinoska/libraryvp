@@ -75,8 +75,9 @@ public class BookServiceImpl implements BookService {
         book.setStock(stock);
         book.setDescription(description);
         book.setUrl(url);
+        book.setRating(rating);
         // TODO: KATEGORIJA
-      //  book.setCategory(category);
+        //  book.setCategory(category);
 
         return this.bookRepository.save(book);
     }

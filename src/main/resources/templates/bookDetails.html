@@ -132,18 +132,9 @@
                         <img th:src="${selectedBook.getUrl()}" style="height: 400px;">
                         <p th:text="${selectedBook.getDescription()}">
                         </p>
-<!--                        <div class="rating-stars">-->
-<!--                            <input type="hidden" name="rating">-->
-<!--                            <span data-rating="5">★</span>-->
-<!--                            <span data-rating="4">★</span>-->
-<!--                            <span data-rating="3">★</span>-->
-<!--                            <span data-rating="2">★</span>-->
-<!--                            <span data-rating="1">★</span>-->
-<!--                        </div>-->
                         <form style="margin-bottom: 10px"
                               th:action="@{'/books/rating/{id}'
                                   (id=${selectedBook.getId()})}" th:method="POST">
-                            <!--                                  sec:authorize="isAuthenticated()">-->
                             <div class="d-flex justify-content-end">
                                 <div class="form-group" style="">
                                     <p>Average Rating:

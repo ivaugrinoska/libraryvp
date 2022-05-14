@@ -26,7 +26,6 @@ public interface BookService {
 
     void deleteById(Long id);
 
-    //TODO: sredi kako ke se stava rating preku baza; zatoa ne stavam vo funkciive librarian da stava rating
     Book editBook(Long id, String name, String author, int stock, float rating, String description, String url);
 
     Book addNewBook(String name, String author, int stock, float rating, String description, String url);
