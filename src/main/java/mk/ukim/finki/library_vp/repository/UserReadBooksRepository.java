@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserReadBooksRepository extends JpaRepository<UserReadBooks, UserReadBooksPK> {
-    void deleteAllByUsername(String username);
+
 }

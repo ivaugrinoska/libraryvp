@@ -13,11 +13,18 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByAuthorContainingOrNameContaining(String text, String sameText);
 
+
     List<Book> findAllByCategory(Category category);
 
     List<Book> findFirst10ByCategory(Category c);
 
     List<Book> findTop3ByOrderByRatingDesc();
+
+    void deleteByName(String name);
+
+    Book findBookByName(String name);
+
+    List<Book> findAllByOrderByCategoryAsc();
 
 
 }

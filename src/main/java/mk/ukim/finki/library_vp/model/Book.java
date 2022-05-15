@@ -35,12 +35,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(String name, String author, int stock, float rating, String description, String url) {
+    public Book(String name, String author, int stock, float rating, String description, String url, Category category) {
         this.name = name;
         this.author = author;
         this.stock = stock;
         this.rating = rating;
         this.description = description;
+        this.category = category;
         this.url = url;
         this.counter = 1;
     }

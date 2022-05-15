@@ -23,7 +23,6 @@ public class ReservationCartBooksServiceImpl implements ReservationCartBooksServ
     @Override
     @Transactional
     public void deleteAllByResCartId(Long id) {
-
         this.reservationCartBooksRepository.deleteReservationCartBooksByResCartId(id);
     }
 }

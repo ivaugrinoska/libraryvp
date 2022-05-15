@@ -16,7 +16,7 @@ public interface BookService {
 
     Optional<Book> findById(Long id);
 
-    List<Book> searchByTitleOrAuthor(String text, String sameText);
+    List<Book> searchByTitleOrAuthor(String text);
 
     List<Book> searchByCategory(Category category);
 
@@ -26,9 +26,9 @@ public interface BookService {
 
     void deleteById(Long id);
 
-    Book editBook(Long id, String name, String author, int stock, float rating, String description, String url);
+    Book editBook(Long id, String name, String author, int stock, float rating, String description, String url, Long categoryId);
 
-    Book addNewBook(String name, String author, int stock, float rating, String description, String url);
+    Book addNewBook(String name, String author, int stock, float rating, String description, String url, Long categoryId);
 
     List<Book> findTopRated();
 

@@ -146,7 +146,7 @@
 </html>-->
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>User Profile</title>
@@ -168,14 +168,18 @@
     <link href="font-awesome.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="overflow: hidden">
 <div class="row py-5 px-4">
     <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
-                    <div class="profile mr-3"><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a th:href="@{/changeProfile}" class="btn btn-dark btn-sm btn-block">Промени го профилот</a></div>
+                    <div class="profile mr-3">
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-
+                        profile-picture-973460__340.png"
+                             alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                    </div>
                     <div class="media-body mb-5 text-white">
                        <h4 th:text="${loggedUser.getName()}"></h4>
                        <h4 th:text="${loggedUser.getSurname()}"></h4>
@@ -206,17 +210,39 @@
                     <div class="col-lg-6 pl-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-6.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
                 </div>-->
 
-                <div class="py-4">
-                    <h5 class="mb-3">Книги кои сакам да ги прочитам:</h5>
-                    <div class="p-4 bg-light rounded shadow-sm">
-                        <p class="font-italic mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                        <ul class="list-inline small text-muted mt-3 mb-0">
-                            <li class="list-inline-item"><i class="fa fa-comment-o mr-2"></i>12 Comments</li>
-                            <li class="list-inline-item"><i class="fa fa-heart-o mr-2"></i>200 Likes</li>
-                        </ul>
-                    </div>
+                <div sec:authorize="hasRole('ROLE_LIBRARIAN')">
+                    <a class="nav-link" th:href="@{/books/add-form}">Додади книга</a>
                 </div>
 
+                <div sec:authorize="hasRole('ROLE_USER')">
+                <div class="py-4">
+                    <h5 class="mb-3">Книги кои сакам да ги прочитам:</h5>
+                </div >
+
+                <div class="container mb-4">
+                    <div class="row">
+                        <div class="col-12" th:if="${books.size() > 0}">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Author</th>
+                                        <th scope="col">Desc</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="book : ${books}" class="book">
+                                        <td th:text="${book.getName()}"></td>
+                                        <td th:text="${book.getAuthor()}"></td>
+                                        <td th:text="${book.getDescription()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

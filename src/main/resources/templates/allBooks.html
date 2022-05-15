@@ -53,7 +53,7 @@
                             <a class="nav-link" th:href="@{/help}">Помош</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" sec:authorize="hasRole('ROLE_LIBRARIAN')" th:href="@{/books/add-new-book}">Додади книга</a>
+                            <a class="nav-link" sec:authorize="hasRole('ROLE_LIBRARIAN')" th:href="@{/books/add-form}">Додади книга</a>
                         </li>
                     </ul>
                     <!-- Left links -->
@@ -61,13 +61,13 @@
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Icon -->
-                    <a class="text-reset me-3" href="#" f>
+                    <a  class="text-reset me-3" href="#" f>
                         <i class="fas fa-shopping-cart"></i>
                     </a>
                     <!-- Notifications -->
                     <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
 <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
-                        <button sec:authorize="isAuthenticated()" class="dropbtn" >
+                        <button sec:authorize="hasRole('ROLE_USER')" class="dropbtn" >
                             <a th:href="@{/reservations/current}" style="margin-right: 5px">
                                 <span class="glyphicon glyphicon-shopping-cart"></span>
                             </a></button>
@@ -90,58 +90,166 @@
                 <!-- Container wrapper -->
             </div>
         </nav>
-        <div class="row tm-row">
-            <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
-                <hr class="tm-hr-primary">
-                <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">
-                    <div class="tm-post-link-inner">
+<!--        <div class="row tm-row">-->
+<!--            <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">-->
+<!--                <hr class="tm-hr-primary">-->
+<!--                <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">-->
+<!--                    <div class="tm-post-link-inner">-->
 
-                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"
-                             class="img-fluid">
-                    </div>
-                    <!--<span class="position-absolute tm-new-badge">Recommended</span>-->
-                    <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>
-                </a>
-                <div class="d-flex justify-content-between tm-pt-45">
-                    <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>
-                    <!--                    <span class="tm-color-primary">June 24, 2020</span>-->
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <span th:text="${book.getStock()}"></span>
-                    <span th:text="${book.getRating()}"></span>
-                </div>
-            </article>
+<!--                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"-->
+<!--                             class="img-fluid">-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash;<span class="position-absolute tm-new-badge">Recommended</span>&ndash;&gt;-->
+<!--                    <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>-->
+<!--                </a>-->
+<!--                <div class="d-flex justify-content-between tm-pt-45">-->
+<!--                    <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>-->
+<!--                    &lt;!&ndash;                    <span class="tm-color-primary">June 24, 2020</span>&ndash;&gt;-->
+<!--                </div>-->
+<!--                <hr>-->
+<!--                <div class="d-flex justify-content-between">-->
+<!--                    <span th:text="${book.getStock()}"></span>-->
+<!--                    <span th:text="${book.getRating()}"></span>-->
+<!--                </div>-->
+<!--            </article>-->
 
+<!--        </div>-->
+<!--        <div class="row tm-row tm-mt-100 tm-mb-75">-->
+<!--            <div class="tm-prev-next-wrapper">-->
+<!--                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>-->
+<!--                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>-->
+<!--            </div>-->
+<!--            <div class="tm-paging-wrapper">-->
+<!--                <span class="d-inline-block mr-3">Page</span>-->
+<!--                <nav class="tm-paging-nav d-inline-block">-->
+<!--                    <ul>-->
+<!--                        <li class="tm-paging-item active">-->
+<!--                            <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>-->
+<!--                        </li>-->
+<!--                        <li class="tm-paging-item">-->
+<!--                            <a href="#" class="mb-2 tm-btn tm-paging-link">2</a>-->
+<!--                        </li>-->
+<!--                        <li class="tm-paging-item">-->
+<!--                            <a href="#" class="mb-2 tm-btn tm-paging-link">3</a>-->
+<!--                        </li>-->
+<!--                        <li class="tm-paging-item">-->
+<!--                            <a href="#" class="mb-2 tm-btn tm-paging-link">4</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="data-container row tm-row">
         </div>
-        <div class="row tm-row tm-mt-100 tm-mb-75">
-            <div class="tm-prev-next-wrapper">
-                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
-                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
-            </div>
-            <div class="tm-paging-wrapper">
-                <span class="d-inline-block mr-3">Page</span>
-                <nav class="tm-paging-nav d-inline-block">
-                    <ul>
-                        <li class="tm-paging-item active">
-                            <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>
-                        </li>
-                        <li class="tm-paging-item">
-                            <a href="#" class="mb-2 tm-btn tm-paging-link">2</a>
-                        </li>
-                        <li class="tm-paging-item">
-                            <a href="#" class="mb-2 tm-btn tm-paging-link">3</a>
-                        </li>
-                        <li class="tm-paging-item">
-                            <a href="#" class="mb-2 tm-btn tm-paging-link">4</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+        <div id="pagination-container" class="row tm-row">
+            <article class="col-12 col-md-4 tm-post" style="width:300px"> </article>
         </div>
     </main>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="../static/javascript-jquery.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#pagination-container').pagination({
+            dataSource: function(done) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/books',
+                    success: function(response) {
+                        done(response);
+                    }
+                });
+            },
+            locator: 'items',
+            totalNumber: 100,
+            pageSize: 2,
+            showPageNumbers: true,
+            showPrevious: true,
+            showNext: true,
+            showNavigator: true,
+            className: 'paginationjs-theme-blue',
+            //showFirstOnEllipsisShow: true,
+            //showLastOnEllipsisShow: true,
+
+            //     callback: function(data, pagination) {
+            //     var html = simpleTemplating(data);
+            //     $('.data-container').html(html);
+            // }
+            ajax: {
+                beforeSend: function () {
+                    $('#pagination-container').prev().html('Loading data for books ...');
+                }
+            },
+            callback: function (response, pagination) {
+                // window.console && console.log(22, response, pagination);
+                var dataHtml = '<hr class="tm-hr-primary">';
+                $.each(response, function (index, item) {
+                    dataHtml += '<a href="/books/' + item.id + '"'
+                        +'class="effect-lily tm-post-link tm-pt-60">'
+                        +'<div class="tm-post-link-inner">'
+                        +'<img src=' + item.url + ' style="width: 300px; height: 400px;" alt="Image"'
+                        +'class="img-fluid">'
+                        +'</div>'
+                        +'<span class="position-absolute tm-new-badge">Recommended</span>'
+                        +'<h1 class="tm-pt-30 tm-color-primary tm-post-title">' + item.name + '</h1>'
+                        +'<span class="tm-color-primary">' + 'Author: ' + item.author + '</span>'
+                        + '<br/>'
+                        +'<span>' + 'Stock: ' + item.stock + '</span>'
+                        +'<br/>'
+                        +'<span>' + 'Rating: ' + item.rating + '</span>'
+                        + '<hr/>'
+                        +'</a>'
+                        // +'<div class="d-flex justify-content-between tm-pt-45">'
+                        // +'<span class="tm-color-primary">' + item.author + '</span>'
+                        // +'</div>'
+                        +'<hr>'
+                        +'<div class="d-flex justify-content-between">'
+                        // +'<span>' + item.stock + '</span>'
+                        // +'<span>' + item.rating + '</span>'
+                        +'</div>'
+                    //+'</article>'
+                    // dataHtml += '<li>' + item.name + '</li>';
+                });
+                //dataHtml += '</article>';
+                $('#pagination-container').prev().html(dataHtml);
+            }
+        })
+    })
+// $('#pagination-container').pagination({
+// dataSource: [1, 2, 3, 4, 5, 6, 7 , 195],
+// callback: function(data, pagination) {
+// // template method of yourself
+// var html = simpleTemplating(data);
+// $('#data-container').html(html);
+// }
+// })
+
+// $(document).ready(function(){
+//     $('#pagination-container').pagination({
+//     dataSource: [1,2,3,4,5,6],
+//         pageSize: 3,
+//     callback: function(data, pagination) {
+//         var html = simpleTemplating(data);
+//         $('#data-container').html(html);
+//     }
+// })
+// })
+//
+// function simpleTemplating(data) {
+//     let html = '<ul>';
+//     $.each(data, function(index, item){
+//         html += '<li>'+ item +'</li>';
+//     });
+//     html += '</ul>';
+//     return html;
+// }
+
+
+</script>
+
+<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="../static/javascript-jquery.js"></script>-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script  type="text/javascript" src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+<script  type="text/css" src="https://pagination.js.org/dist/2.1.5/pagination.js"></script>
 </body>
 </html>

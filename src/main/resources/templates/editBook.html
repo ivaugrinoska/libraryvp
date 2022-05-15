@@ -1,0 +1,229 @@
+<!--<div class="container-fluid">-->
+<!--    <main class="tm-main">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--            &lt;!&ndash; Container wrapper &ndash;&gt;-->
+<!--            <div class="container-fluid">-->
+<!--                &lt;!&ndash; Toggle button &ndash;&gt;-->
+<!--                <button-->
+<!--                        class="navbar-toggler"-->
+<!--                        type="button"-->
+<!--                        data-mdb-toggle="collapse"-->
+<!--                        data-mdb-target="#navbarSupportedContent"-->
+<!--                        aria-controls="navbarSupportedContent"-->
+<!--                        aria-expanded="false"-->
+<!--                        aria-label="Toggle navigation"-->
+<!--                >-->
+<!--                    <i class="fas fa-bars"></i>-->
+<!--                </button>-->
+<!--                &lt;!&ndash; Collapsible wrapper &ndash;&gt;-->
+<!--                <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--                    &lt;!&ndash; Navbar brand &ndash;&gt;-->
+<!--                    <a class="navbar-brand mt-2 mt-lg-0 active">-->
+<!--                        <img-->
+<!--                                src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"-->
+<!--                                height="55"-->
+<!--                                width="50"-->
+<!--                                alt="Library Logo"-->
+<!--                                loading="lazy"-->
+<!--                        />-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </main>-->
+<!--</div>-->
+
+<body xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div class="container-fluid">
+    <main class="tm-main">
+        <!-- Search form -->
+        <div class="row tm-row">
+            <div class="col-12">
+                <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
+                    <input class="form-control tm-search-input" name="authorOrTitle" type="text"
+                           placeholder="Пребарај по наслов/автор..." aria-label="Search">
+                    <button class="tm-search-button" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
+                        <img
+                                src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
+                                height="55"
+                                width="50"
+                                alt="Library Logo"
+                                loading="lazy"
+                        />
+                    </a>
+                    <!-- Left links -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" sec:authorize="hasRole('ROLE_LIBRARIAN')" th:href="@{/books/add-form}">Додади книга</a>
+                        </li>
+                    </ul>
+                    <!-- Left links -->
+                </div>
+                <!-- Right elements -->
+                <div class="d-flex align-items-center">
+                    <!-- Icon -->
+                    <a class="text-reset me-3" href="#" f>
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    <!-- Notifications -->
+                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
+                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
+                    <button sec:authorize="isAuthenticated()" class="dropbtn" >
+                        <a th:href="@{/reservations/current}" style="margin-right: 5px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </a></button>
+                    <!--                    </div>-->
+                    <!-- Avatar -->
+                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
+                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
+                    <div class="dropdown">
+                        <button class="dropbtn"> <a>
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a></button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/users/profile}">Профил</a>
+                            <a href="/logout">Одјави се</a>
+                        </div>
+                    </div>
+
+                    <!-- Right elements -->
+                </div>
+                <!-- Container wrapper -->
+            </div>
+        </nav>
+
+        <div class="container d-flex align-items-start">
+    <div class="row">
+        <div class="col-lg-12" style="width: 300px" xmlns:th="http://www.w3.org/1999/xhtml">
+            <form th:action="@{'/books/edit'}" th:method="POST">
+                <input id="id" type="hidden" name="id" th:value="(${book} != null ? ${book.getId()} : '')">
+                <div class="form-group">
+                    <label for="url">Слика</label>
+                    <input type="text"
+                           class="form-control"
+                           id="url"
+                           name="url"
+                           th:value="(${book} != null ? ${book.getUrl()} : '')"
+                           required
+                           placeholder="Enter book image">
+                </div>
+                <div class="form-group">
+                    <label for="name">Име</label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           th:value="(${book} != null ? ${book.getName()} : '')"
+                           required
+                           placeholder="Enter book name">
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Автор</label>
+                    <input type="text"
+                           class="form-control"
+                           id="author"
+                           name="author"
+                           th:value="(${book} != null ? ${book.getAuthor()} : '')"
+                           required
+                           placeholder="Enter book author">
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category" class="form-control">
+                        <option th:if="${book} != null"
+                                th:selected="${book.getCategory() != null &&
+                                book.getCategory().getId() == cat.getId()}"
+                                th:each="cat : ${categories}"
+                                th:value="${cat.getId()}"
+                                th:text="${cat.getName()}">
+                        </option>
+                        <option th:if="${book} == null"
+                                th:each="cat : ${categories}"
+                                th:value="${cat.getId()}"
+                                th:text="${cat.getName()}">
+                        </option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="description">Опис</label>
+                    <input type="text"
+                           class="form-control"
+                           id="description"
+                           name="description"
+                           th:value="(${book} != null ? ${book.getDescription()} : '')"
+                           required
+                           placeholder="Enter book description">
+                </div>
+
+                <!-- ova ke go trgneme koga ke smenime vo bazata-->
+                <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <input type="number"
+                           class="form-control"
+                           id="rating"
+                           name="rating"
+                           min="0" max="5"
+                           step="0.01"
+                           th:value="(${book} != null ? ${book.getRating()} : '')"
+                           required
+                           placeholder="Enter rating">
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">Количина</label>
+                    <input type="text"
+                           class="form-control"
+                           id="stock"
+                           name="stock"
+                           th:value="(${book} != null ? ${book.getStock()} : '')"
+                           required
+                           placeholder="Enter stock">
+                </div>
+                <button id="addBookSubmit" type="submit" class="btn btn-secondary">Поднеси</button>
+                <a type="button" class="btn btn-secondary" th:href="@{/books}">Назад</a><br/><br/>
+
+            </form>
+        </div>
+    </div>
+</div>
+    </main>
+</div>
+</body>

@@ -1,5 +1,6 @@
 package mk.ukim.finki.library_vp.web;
 
+import com.sun.istack.NotNull;
 import mk.ukim.finki.library_vp.model.Book;
 import mk.ukim.finki.library_vp.model.Category;
 import mk.ukim.finki.library_vp.model.User;
@@ -7,12 +8,14 @@ import mk.ukim.finki.library_vp.service.CategoryService;
 import mk.ukim.finki.library_vp.service.impl.BookServiceImpl;
 import mk.ukim.finki.library_vp.service.impl.ReviewServiceImpl;
 import mk.ukim.finki.library_vp.service.impl.UserServiceImpl;
+import org.apache.coyote.Request;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -59,8 +62,9 @@ public class BookController {
     public String searchAuthorOrTitle(@RequestParam String authorOrTitle, Model model) {
         String x = authorOrTitle;
         model.addAttribute("categories", this.categoryService.findAll());
-        model.addAttribute("books", bookService.searchByTitleOrAuthor(authorOrTitle, authorOrTitle));
-        return "allBooks";
+        model.addAttribute("books", bookService.searchByTitleOrAuthor(authorOrTitle));
+        model.addAttribute("bodyContent", "searchBooks");
+        return "master-template";
     }
 
     @GetMapping("/search/{id}")
@@ -68,9 +72,9 @@ public class BookController {
         Category category = categoryService.findCategoryById(id);
         model.addAttribute("books", bookService.searchByCategory(category));
         model.addAttribute("categories", this.categoryService.findAll());
-        model.addAttribute("bodyContent", "allBooks");
-        //return "master-template";
-        return "bookDetails";
+        model.addAttribute("bodyContent", "searchBooks");
+        return "master-template";
+        //return "bookDetails";
     }
 
     @PostMapping("/addReview")
@@ -103,45 +107,103 @@ public class BookController {
         return "redirect:/books?error=BookNotFoundException";
     }*/
 
-    @GetMapping("/edit-book/{id}")
-    public String editBook(@PathVariable Long id, Model model) {
+//    @GetMapping("/edit-book/{id}")
+//    public String editBook(@PathVariable Long id, Model model) {
+//        if (this.bookService.findById(id).isPresent()) {
+//            Book book = this.bookService.findById(id).get();
+//            List<Category> categories = this.categoryService.listCategories();
+//            model.addAttribute("categories", categories);
+//            model.addAttribute("categories", categories);
+//
+//            return "addNewBook";
+//        }
+//        return "redirect:/books?error=BookNotFoundException";
+//    }
+//
+//    @GetMapping("/add-new-book")
+//    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+//    public String addNewBook() {
+//        return "addNewBook";
+//    }
+//
+//    @PostMapping("/add-book")
+//    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+//    public String addBook(@RequestParam(required = false) Long id, HttpServletRequest req, Model model) {
+//        String bookName = req.getParameter("bookName");
+//        int bookStock = Integer.parseInt(req.getParameter("bookStock"));
+//        float bookRating = Float.parseFloat(req.getParameter("bookRating"));
+//        String bookDescription = req.getParameter("bookDescription");
+//        String bookUrl = req.getParameter("bookUrl");
+//        String bookAuthor = req.getParameter("bookAuthor");
+//
+//        List<Category> categories = this.categoryService.listCategories();
+//        model.addAttribute("categories", categories);
+//
+//        if (id != null)
+//            this.bookService.editBook(id, bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
+//        else
+//            this.bookService.addNewBook(bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
+//
+//        return "redirect:/books";
+//
+//    }
+
+    @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public String addBookPage(Model model) {
+        List<Category> categories = this.categoryService.listCategories();
+        //List<Manufacturer> manufacturers = this.manufacturerService.listAll();
+        model.addAttribute("categories", categories);
+        //model.addAttribute("manufacturers", manufacturers);
+        model.addAttribute("bodyContent", "addNewBook");
+        return "master-template";
+    }
+
+    @GetMapping("/edit-form/{id}")
+    public String editBookPage(@PathVariable Long id, Model model) {
         if (this.bookService.findById(id).isPresent()) {
             Book book = this.bookService.findById(id).get();
             List<Category> categories = this.categoryService.listCategories();
+            //List<Manufacturer> manufacturers = this.manufacturerService.listAll();
             model.addAttribute("categories", categories);
-            model.addAttribute("categories", categories);
-
-            return "addNewBook";
+            //model.addAttribute("manufacturers", manufacturers);
+            model.addAttribute("book", book);
+            model.addAttribute("bodyContent", "editBook");
+            return "master-template";
         }
-        return "redirect:/books?error=BookNotFoundException";
+        return "redirect:/books?error=BookNotFound";
     }
 
-    @GetMapping("/add-new-book")
-    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
-    public String addNewBook() {
-        return "addNewBook";
-    }
+    @PostMapping("/add")
+    public String saveBook(
+            @RequestParam(required = false) String id,
+            @RequestParam String name,
+            @RequestParam String author,
+            @RequestParam Integer stock,
+            @RequestParam Float rating,
+            @RequestParam String description,
+            @RequestParam String url,
+            @RequestParam Long category) {
 
-    @PostMapping("/add-book")
-    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
-    public String addBook(@RequestParam(required = false) Long id, HttpServletRequest req, Model model) {
-        String bookName = req.getParameter("bookName");
-        int bookStock = Integer.parseInt(req.getParameter("bookStock"));
-        float bookRating = Float.parseFloat(req.getParameter("bookRating"));
-        String bookDescription = req.getParameter("bookDescription");
-        String bookUrl = req.getParameter("bookUrl");
-        String bookAuthor = req.getParameter("bookAuthor");
-
-        List<Category> categories = this.categoryService.listCategories();
-        model.addAttribute("categories", categories);
-
-        if (id != null)
-            this.bookService.editBook(id, bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
-        else
-            this.bookService.addNewBook(bookName, bookAuthor, bookStock, bookRating, bookDescription, bookUrl);
+        this.bookService.addNewBook(name, author, stock, rating, description, url, category);
 
         return "redirect:/books";
+    }
 
+    @PostMapping("/edit")
+    public String editBook(
+            @RequestParam(required = false) String id,
+            @RequestParam String name,
+            @RequestParam String author,
+            @RequestParam Integer stock,
+            @RequestParam Float rating,
+            @RequestParam String description,
+            @RequestParam String url,
+            @RequestParam Long category) {
+
+        this.bookService.editBook(Long.parseLong(id), name, author, stock, rating, description, url, category);
+
+        return "redirect:/books";
     }
 
     @PostMapping("/rating/{bookId}")

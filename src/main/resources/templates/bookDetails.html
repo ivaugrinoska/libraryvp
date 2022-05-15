@@ -173,14 +173,21 @@
 
                         </div>
 
-                        <form method="post" action="/books/mark">
-                        <div class="text-right">
-                            <input type="hidden" name="bookId">
-                            <button class="tm-btn tm-btn-primary tm-btn-small">Прочитана</button>
-                        </div>
-                        </form></br>
+                        <div class="text-right" style="margin-bottom: 10px">
+                            <th:block>
+                                <form style="margin-bottom: 10px"
+                                      th:action="@{'/users/add-book/{id}' (id=${selectedBook.getId()})}" th:method="POST">
+                                    <button type="submit"
+                                            class="tm-btn tm-btn-primary tm-btn-small">
+                                        Want To Read
+                                    </button>
+                                </form>
+                            </th:block>
 
-                        <form th:action="@{'/books/edit-book/{id}' (id=${selectedBook.getId()})}" th:method="GET">
+                        </div>
+                        </br>
+
+                        <form th:action="@{'/books/edit-form/{id}' (id=${selectedBook.getId()})}" th:method="GET">
                             <div class="text-right">
                                 <input sec:authorize="hasRole('ROLE_LIBRARIAN')" type="hidden" name="bookId">
                                 <button sec:authorize="hasRole('ROLE_LIBRARIAN')" class="tm-btn tm-btn-primary tm-btn-small">Едитирај</button>

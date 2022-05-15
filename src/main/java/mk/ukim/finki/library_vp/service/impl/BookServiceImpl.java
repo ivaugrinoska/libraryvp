@@ -5,6 +5,7 @@ import mk.ukim.finki.library_vp.model.Category;
 import mk.ukim.finki.library_vp.model.User;
 import mk.ukim.finki.library_vp.model.exceptions.BookNotFoundException;
 import mk.ukim.finki.library_vp.repository.BookRepository;
+import mk.ukim.finki.library_vp.repository.CategoryRepository;
 import mk.ukim.finki.library_vp.service.BookService;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
@@ -13,19 +14,22 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository) {
         this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepository.findAllByOrderByCategoryAsc();
     }
 
     @Override
@@ -39,12 +43,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> searchByTitleOrAuthor(String text, String sameText) {
-        return bookRepository.findAllByAuthorContainingOrNameContaining(text, sameText);
+    public List<Book> searchByTitleOrAuthor(String text) {
+        return this.bookRepository.findAll().stream().filter(i -> i.getName().toLowerCase().contains(text.toLowerCase())
+                || i.getAuthor().toLowerCase().
+                contains(text.toLowerCase())).collect(Collectors.toList());
+        //return bookRepository.findAllByAuthorContainingOrNameContaining(text, sameText);
     }
 
     @Override
     public List<Book> searchByCategory(Category category) {
+
+
         return bookRepository.findAllByCategory(category);
     }
 
@@ -66,9 +75,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book editBook(Long id, String name, String author, int stock, float rating, String description, String url) {
+    public Book editBook(Long id, String name, String author, int stock, float rating, String description, String url, Long categoryId) {
         Book book = this.bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
+
+        Category category = this.categoryRepository.findById(categoryId).get();
 
         book.setName(name);
         book.setAuthor(author);
@@ -76,18 +87,22 @@ public class BookServiceImpl implements BookService {
         book.setDescription(description);
         book.setUrl(url);
         book.setRating(rating);
-        // TODO: KATEGORIJA
-        //  book.setCategory(category);
+        book.setCategory(category);
 
         return this.bookRepository.save(book);
     }
 
-    @Override
-    public Book addNewBook(String name, String author, int stock, float rating, String description, String url) {
-        if (name.isEmpty())
-            return null;
 
-        return this.bookRepository.save(new Book(name, author, stock, rating, description, url));
+    @Override
+    public Book addNewBook(String name, String author, int stock, float rating, String description, String url, Long categoryId) {
+
+        Category category = this.categoryRepository.findById(categoryId).get();
+//        Book book = this.bookRepository.findBookByName(name);
+
+        this.bookRepository.deleteByName(name);
+
+        //return Optional.of(this.bookRepository.save(new Product(name, price, quantity, category, manufacturer)));
+        return this.bookRepository.save(new Book(name, author, stock, rating, description, url, category));
     }
 
     @Override
