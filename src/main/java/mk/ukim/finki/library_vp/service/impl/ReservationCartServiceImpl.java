@@ -23,13 +23,11 @@ public class ReservationCartServiceImpl implements ReservationCartService {
     private final ReservationCartRepository reservationCartRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
-    private final ReservationCartBooksRepository reservationCartBooksRepository;
 
-    public ReservationCartServiceImpl(ReservationCartRepository reservationCartRepository, UserRepository userRepository, BookRepository bookRepository, ReservationCartBooksRepository reservationCartBooksRepository) {
+    public ReservationCartServiceImpl(ReservationCartRepository reservationCartRepository, UserRepository userRepository, BookRepository bookRepository) {
         this.reservationCartRepository = reservationCartRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
-        this.reservationCartBooksRepository = reservationCartBooksRepository;
     }
 
 
@@ -54,20 +52,8 @@ public class ReservationCartServiceImpl implements ReservationCartService {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
         ReservationCart reservationCart = this.reservationCartRepository.
                 findReservationCartByUser(user);
-
-
- //               .orElseThrow(() -> {
-//                    ReservationCart cart = new ReservationCart(user);
-//                    return this.reservationCartRepository.save(cart);
-//                });
         return reservationCart;
 
-//        return this.shoppingCartRepository.findByUsernameAndStatus(username, ShoppingCartStatus.CREATED)
-//                .orElseGet(() -> {
-//                    User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-//                    ShoppingCart shoppingCart = new ShoppingCart(user);
-//                    return this.shoppingCartRepository.save(shoppingCart);
-//                });
 
     }
 
@@ -103,7 +89,6 @@ public class ReservationCartServiceImpl implements ReservationCartService {
         }
 
         books = this.bookRepository.saveAll(books);
-//        this.reservationCartBooksRepository.deleteAllByResCartId(id);
 
     }
 

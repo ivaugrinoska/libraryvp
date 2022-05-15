@@ -30,6 +30,7 @@ public class HomeController {
     @GetMapping("/help")
     public String helpPage(Model model) {
         model.addAttribute("categories", this.categoryService.findAll());
-        return "contact";
+        model.addAttribute("bodyContent", "contact");
+        return "master-template";
     }
 }

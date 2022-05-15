@@ -47,25 +47,16 @@ public class BookServiceImpl implements BookService {
         return this.bookRepository.findAll().stream().filter(i -> i.getName().toLowerCase().contains(text.toLowerCase())
                 || i.getAuthor().toLowerCase().
                 contains(text.toLowerCase())).collect(Collectors.toList());
-        //return bookRepository.findAllByAuthorContainingOrNameContaining(text, sameText);
     }
 
     @Override
     public List<Book> searchByCategory(Category category) {
-
-
         return bookRepository.findAllByCategory(category);
     }
 
     @Override
-    public List<Book> findFirst10(Category c) {
-        return bookRepository.findFirst10ByCategory(c);
-    }
-
-    @Override
-    public void markAsRead(Long bookId, User user) {
-
-
+    public List<Book> findFirst3(Category c) {
+        return bookRepository.findFirst3ByCategory(c);
     }
 
     @Override
@@ -97,11 +88,8 @@ public class BookServiceImpl implements BookService {
     public Book addNewBook(String name, String author, int stock, float rating, String description, String url, Long categoryId) {
 
         Category category = this.categoryRepository.findById(categoryId).get();
-//        Book book = this.bookRepository.findBookByName(name);
 
         this.bookRepository.deleteByName(name);
-
-        //return Optional.of(this.bookRepository.save(new Product(name, price, quantity, category, manufacturer)));
         return this.bookRepository.save(new Book(name, author, stock, rating, description, url, category));
     }
 

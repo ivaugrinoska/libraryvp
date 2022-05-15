@@ -2,7 +2,6 @@
 
 <div class="container-fluid">
     <main class="tm-main">
-        <!-- Search form -->
         <div class="row tm-row">
             <div class="col-12">
                 <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
@@ -17,9 +16,7 @@
 
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <!-- Container wrapper -->
             <div class="container-fluid">
-                <!-- Toggle button -->
                 <button
                         class="navbar-toggler"
                         type="button"
@@ -31,10 +28,7 @@
                 >
                     <i class="fas fa-bars"></i>
                 </button>
-
-                <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Navbar brand -->
                     <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
                         <img
                                 src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
@@ -44,36 +38,24 @@
                                 loading="lazy"
                         />
                     </a>
-                    <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                            <a class="nav-link" th:href="@{/help}">Контакт</a>
                         </li>
                     </ul>
-                    <!-- Left links -->
                 </div>
 
-                <!-- Right elements -->
                 <div class="d-flex align-items-center">
-                    <!-- Icon -->
                     <a class="text-reset me-3" href="#" f>
                         <i class="fas fa-shopping-cart"></i>
                     </a>
-
-                    <!-- Notifications -->
-                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
-                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
                     <button class="dropbtn" >
                         <a th:href="@{/reservations/current}" style="margin-right: 5px">
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </a></button>
-                    <!--                    </div>-->
-                    <!-- Avatar -->
-                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
-                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
                     <div class="dropdown">
                         <button class="dropbtn"> <a>
                             <span class="glyphicon glyphicon-user"></span>
@@ -84,12 +66,9 @@
                         </div>
                     </div>
 
-                    <!-- Right elements -->
                 </div>
-                <!-- Container wrapper -->
             </div>
         </nav>
-        <!--        end-->
         <div class="container mb-4">
             <div class="row">
                 <div class="col-12" th:if="${books.size() > 0}">
@@ -97,9 +76,9 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Author</th>
-                                <th scope="col">Desc</th>
+                                <th scope="col">Име</th>
+                                <th scope="col">Автор</th>
+                                <th scope="col">Опис</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -115,7 +94,7 @@
             </div>
             <form  th:action="@{'/reservations/delete/{id}' (id=${reservationCart.getId()})}"
                    th:method="DELETE">
-                <button class="tm-btn-primary" type="submit">Checkout</button>
+                <button class="tm-btn-primary" type="submit">Потврди резервација</button>
             </form>
         </div>
 

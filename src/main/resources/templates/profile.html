@@ -1,150 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library App</title>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/stylesheet.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <style th:replace="styling.html">
-    </style>
-    <title>User Profile</title>
-</head>
-
-<body xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
-
-<header class="tm-header" id="tm-header">
-    <div class="tm-header-wrapper">
-        <nav class="tm-nav" id="tm-nav">
-        </nav>
-    </div>
-</header>
-
-<div class="container-fluid">
-    <main class="tm-main">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            &lt;!&ndash; Container wrapper &ndash;&gt;
-            <div class="container-fluid">
-                &lt;!&ndash; Toggle button &ndash;&gt;
-                <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-mdb-toggle="collapse"
-                        data-mdb-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                >
-                    <i class="fas fa-bars"></i>
-                </button>
-
-                &lt;!&ndash; Collapsible wrapper &ndash;&gt;
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    &lt;!&ndash; Navbar brand &ndash;&gt;
-                    <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
-                        <img
-                                src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
-                                height="55"
-                                width="50"
-                                alt="Library Logo"
-                                loading="lazy"
-                        />
-                    </a>
-                    &lt;!&ndash; Left links &ndash;&gt;
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/changeProfile}">Промени го профилот</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/help}">Помош</a>
-                        </li>
-                    </ul>
-                </div>
-                &lt;!&ndash; Right elements &ndash;&gt;
-                <div class="d-flex align-items-center">
-                    &lt;!&ndash; Icon &ndash;&gt;
-                    <a class="text-reset me-3" href="#">
-                        <i class="fas fa-shopping-cart"></i>
-                    </a>
-
-                    &lt;!&ndash; Notifications &ndash;&gt;
-                    &lt;!&ndash;                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(&ndash;&gt;
-                    <div class="dropdown"> <button sec:authorize="isAuthenticated()" class="dropbtn">
-                        <a th:href="@{/reservations/current}" style="margin-right: 5px">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a></button>
-                        <ul
-                                class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="navbarDropdownMenuLink"
-                        >
-                            <li>
-                                <a class="dropdown-item" href="#">Some news</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Another news</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                    &lt;!&ndash; Avatar &ndash;&gt;
-                    &lt;!&ndash;                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava&ndash;&gt;
-                    <div class="dropdown">
-                        <button class="dropbtn"> <a>
-                            <span class="glyphicon glyphicon-user"></span>
-                        </a></button>
-                        <div class="dropdown-content">
-                            <a th:href="@{/users/profile}">Профил</a>
-                            <a href="#">Одјава</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <div class="row tm-row">
-            <div>
-                <a href="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"></a>
-            </div>
-            <article th:each="book: ${books}" class="col-12 col-md-4 tm-post" style="width: 300px;">
-                <hr class="tm-hr-primary">
-                <a th:href="@{'/books/{id}' (id=${book.getId()})}" class="effect-lily tm-post-link tm-pt-60">
-                    <div class="tm-post-link-inner">
-
-                        <img th:src="${book.getUrl()}" style="width: 300px; height: 400px;" alt="Image"
-                             class="img-fluid">
-                    </div>
-                    <span class="position-absolute tm-new-badge">Recommended</span>
-                    <h2 class="tm-pt-30 tm-color-primary tm-post-title" th:text="${book.getName()}"></h2>
-                </a>
-                <div class="d-flex justify-content-between tm-pt-45">
-                    <span class="tm-color-primary" th:text="${book.getAuthor()}"></span>
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <span th:text="${book.getStock()}"></span>
-                    <span th:text="${book.getRating()}"></span>
-                </div>
-            </article>
-        </div>
-    </main>
-</div>
-<script src="js/jquery.min.js"></script>
-<script src="../static/javascript-jquery.js"></script>
-</body>
-</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
@@ -171,7 +24,6 @@
 <body style="overflow: hidden">
 <div class="row py-5 px-4">
     <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
-        <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
@@ -188,27 +40,10 @@
                 </div>
             </div>
 
-            <!--<div class="bg-light p-4 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">241</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">84K</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Followers</small>
-                    </li>
-                </ul>
-            </div>-->
-
             <div class="py-4 px-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted"></a>
                 </div>
-               <!-- <div class="row">
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-3.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-4.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-5.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pl-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-6.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                </div>-->
 
                 <div sec:authorize="hasRole('ROLE_LIBRARIAN')">
                     <a class="nav-link" th:href="@{/books/add-form}">Додади книга</a>
@@ -226,9 +61,9 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Author</th>
-                                        <th scope="col">Desc</th>
+                                        <th scope="col">Име</th>
+                                        <th scope="col">Автор</th>
+                                        <th scope="col">Опис</th>
                                     </tr>
                                     </thead>
                                     <tbody>

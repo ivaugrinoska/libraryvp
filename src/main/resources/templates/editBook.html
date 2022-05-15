@@ -85,31 +85,21 @@
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                            <a class="nav-link" th:href="@{/help}">Контакт</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" sec:authorize="hasRole('ROLE_LIBRARIAN')" th:href="@{/books/add-form}">Додади книга</a>
                         </li>
                     </ul>
-                    <!-- Left links -->
                 </div>
-                <!-- Right elements -->
                 <div class="d-flex align-items-center">
-                    <!-- Icon -->
                     <a class="text-reset me-3" href="#" f>
                         <i class="fas fa-shopping-cart"></i>
                     </a>
-                    <!-- Notifications -->
-                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
-                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
                     <button sec:authorize="isAuthenticated()" class="dropbtn" >
                         <a th:href="@{/reservations/current}" style="margin-right: 5px">
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </a></button>
-                    <!--                    </div>-->
-                    <!-- Avatar -->
-                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
-                    <!--                    <div class="dropdown" sec:authorize="isAuthenticated()">-->
                     <div class="dropdown">
                         <button class="dropbtn"> <a>
                             <span class="glyphicon glyphicon-user"></span>
@@ -119,10 +109,7 @@
                             <a href="/logout">Одјави се</a>
                         </div>
                     </div>
-
-                    <!-- Right elements -->
                 </div>
-                <!-- Container wrapper -->
             </div>
         </nav>
 
@@ -164,7 +151,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Category</label>
+                    <label>Категорија</label>
                     <select name="category" class="form-control">
                         <option th:if="${book} != null"
                                 th:selected="${book.getCategory() != null &&
@@ -193,9 +180,8 @@
                            placeholder="Enter book description">
                 </div>
 
-                <!-- ova ke go trgneme koga ke smenime vo bazata-->
                 <div class="form-group">
-                    <label for="rating">Rating</label>
+                    <label for="rating">Рејтинг</label>
                     <input type="number"
                            class="form-control"
                            id="rating"
@@ -208,7 +194,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="stock">Количина</label>
+                    <label for="stock">Залиха</label>
                     <input type="text"
                            class="form-control"
                            id="stock"
@@ -217,8 +203,8 @@
                            required
                            placeholder="Enter stock">
                 </div>
-                <button id="addBookSubmit" type="submit" class="btn btn-secondary">Поднеси</button>
-                <a type="button" class="btn btn-secondary" th:href="@{/books}">Назад</a><br/><br/>
+                <button id="addBookSubmit" type="submit" style="width:160px; font-size: 15px; height: 40px" class="btn btn-secondary">Поднеси</button>
+                <a type="button" class="btn btn-secondary" style="width:160px; font-size: 15px; height: 40px" th:href="@{/books}">Назад</a><br/><br/>
 
             </form>
         </div>

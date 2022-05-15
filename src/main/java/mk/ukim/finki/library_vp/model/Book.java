@@ -43,7 +43,7 @@ public class Book {
         this.description = description;
         this.category = category;
         this.url = url;
-        this.counter = 1;
+        this.counter = 0;
     }
 
     public void rate(float rating) {

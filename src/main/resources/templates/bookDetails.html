@@ -1,27 +1,12 @@
-<style xmlns="http://www.w3.org/1999/html">
-    .rating-stars {
-        display: flex;
-        flex-direction: row-reverse;
-    }
-    .rating-stars span {
-        cursor: pointer;
-    }
-    .rating-stars:not(:hover) span.selected,
-    .rating-stars span:hover,
-    .rating-stars span:hover ~ span {
-        color: rgb(247, 202, 24);
-    }
-</style>
-
 <body xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container-fluid">
     <main class="tm-main">
-        <!-- Search form -->
         <div class="row tm-row">
             <div class="col-12">
                 <form th:method="GET" th:action="@{/books/search}" class="form-inline tm-mb-80 tm-search-form">
-                    <input class="form-control tm-search-input" name="authorOrTitle" type="text" placeholder="Пребарај по наслов/автор..." aria-label="Search">
+                    <input class="form-control tm-search-input" name="authorOrTitle" type="text"
+                           placeholder="Пребарај по наслов/автор..." aria-label="Search">
                     <button class="tm-search-button" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
@@ -30,9 +15,7 @@
             </div>
         </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <!-- Container wrapper -->
             <div class="container-fluid">
-                <!-- Toggle button -->
                 <button
                         class="navbar-toggler"
                         type="button"
@@ -45,9 +28,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
 
-                <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Navbar brand -->
                     <a class="navbar-brand mt-2 mt-lg-0 active" th:href="@{/}">
                         <img
                                 src="https://wareham.theweektoday.com/sites/beaverdam/files/2014/10/field/image/Friends%20logo.png"
@@ -57,62 +38,38 @@
                                 loading="lazy"
                         />
                     </a>
-                    <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/books/topRated}">Најдобро рангирани</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/help}">Помош</a>
+                            <a class="nav-link" th:href="@{/help}">Контакт</a>
                         </li>
                     </ul>
-                    <!-- Left links -->
                 </div>
-                <!-- Collapsible wrapper -->
 
-                <!-- Right elements -->
                 <div class="d-flex align-items-center">
-                    <!-- Icon -->
+
                     <a class="text-reset me-3" href="#">
                         <i class="fas fa-shopping-cart"></i>
                     </a>
 
-                    <!-- Notifications -->
-                    <!--                    ovoj dropdown ne raboti, samo linkot so span vgnezden za kosnicka raboti :(-->
-                    <div class="dropdown"> <button sec:authorize="isAuthenticated()" class="dropbtn">
-                        <a th:href="@{/reservations/current}" style="margin-right: 5px">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a></button>
-                        <ul
-                                class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="navbarDropdownMenuLink"
-                        >
-                            <li>
-                                <a class="dropdown-item" href="#">Some news</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Another news</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Avatar -->
-                    <!--                    ova da se gleda samo korisnikot koga e najaven, inaku da gleda registracija/najava-->
                     <div class="dropdown">
-                        <button class="dropbtn"> <a>
+                        <button sec:authorize="isAuthenticated()" class="dropbtn">
+                            <a th:href="@{/reservations/current}" style="margin-right: 5px">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                            </a></button>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn"><a>
                             <span class="glyphicon glyphicon-user"></span>
                         </a></button>
                         <div class="dropdown-content">
                             <a th:href="@{/users/profile}">Профил</a>
-                            <a href="#">Одјава</a>
+                            <a href="/logout">Одјави се</a>
                         </div>
                     </div>
-
-                    <!-- Right elements -->
                 </div>
-                <!-- Container wrapper -->
             </div>
         </nav>
         <div class="row tm-row">
@@ -129,7 +86,7 @@
 
                         <p class="tm-mb-40" th:text="${selectedBook.getAuthor()}"></p>
 
-                        <img th:src="${selectedBook.getUrl()}" style="height: 400px;">
+                        <img th:src="${selectedBook.getUrl()}" style="height: 400px; width:270px">
                         <p th:text="${selectedBook.getDescription()}">
                         </p>
                         <form style="margin-bottom: 10px"
@@ -137,7 +94,7 @@
                                   (id=${selectedBook.getId()})}" th:method="POST">
                             <div class="d-flex justify-content-end">
                                 <div class="form-group" style="">
-                                    <p>Average Rating:
+                                    <p>Просечен рејтинг:
                                         <span th:text="${selectedBook.getRating()}">
                                     </span></p>
                                     <input type="number"
@@ -150,59 +107,63 @@
                                     <button type="submit"
                                             class="tm-btn tm-btn-primary tm-btn-small"
                                             style="margin-top: 15px">
-                                        Rate
+                                        Стави рејтинг
                                     </button>
                                 </div>
                             </div>
                         </form>
-                       <p th:if="${selectedBook.getStock()>0}" th:text="'На залиха: '+${selectedBook.getStock}">
+                        <p th:if="${selectedBook.getStock()>0}" th:text="'На залиха: '+${selectedBook.getStock}">
                         </p>
                         <p th:if="${selectedBook.getStock()==0}" th:text="Нема залиха" style="color: red;">
                         </p>
-                        <span class="d-block text-left tm-color-primary" th:text="${selectedBook.getCategory().getName()}"></span>
+                        <span class="d-block text-left tm-color-primary"
+                              th:text="${selectedBook.getCategory().getName()}"></span>
                         <div class="text-right" style="margin-bottom: 10px">
                             <th:block>
-                            <form style="margin-bottom: 10px"
-                                  th:action="@{'/reservations/add-book/{id}' (id=${selectedBook.getId()})}" th:method="POST">
-                                <button type="submit"
-                                        class="tm-btn tm-btn-primary tm-btn-small">
-                                    Резервирај
-                                </button>
-                            </form>
+                                <form style="margin-bottom: 10px"
+                                      th:action="@{'/reservations/add-book/{id}' (id=${selectedBook.getId()})}"
+                                      th:method="POST">
+                                    <button type="submit"
+                                            class="tm-btn tm-btn-primary" sec:authorize="hasRole('ROLE_USER')" style="width: 180px">
+                                        Резервирај
+                                    </button>
+                                </form>
                             </th:block>
-
                         </div>
 
                         <div class="text-right" style="margin-bottom: 10px">
                             <th:block>
                                 <form style="margin-bottom: 10px"
-                                      th:action="@{'/users/add-book/{id}' (id=${selectedBook.getId()})}" th:method="POST">
-                                    <button type="submit"
-                                            class="tm-btn tm-btn-primary tm-btn-small">
-                                        Want To Read
+                                      th:action="@{'/users/add-book/{id}' (id=${selectedBook.getId()})}"
+                                      th:method="POST">
+                                    <button sec:authorize="hasRole('ROLE_USER')" type="submit"
+                                            class="tm-btn tm-btn-primary"
+                                            style="width: 180px">
+                                        Сакам да читам
                                     </button>
                                 </form>
                             </th:block>
-
                         </div>
                         </br>
 
                         <form th:action="@{'/books/edit-form/{id}' (id=${selectedBook.getId()})}" th:method="GET">
                             <div class="text-right">
                                 <input sec:authorize="hasRole('ROLE_LIBRARIAN')" type="hidden" name="bookId">
-                                <button sec:authorize="hasRole('ROLE_LIBRARIAN')" class="tm-btn tm-btn-primary tm-btn-small">Едитирај</button>
+                                <button sec:authorize="hasRole('ROLE_LIBRARIAN')"
+                                        class="tm-btn tm-btn-primary tm-btn-small">Едитирај
+                                </button>
                             </div>
                         </form>
 
-                      </div>
+                    </div>
 
-                    <!-- Comments -->
                     <div th:if="${!reviews.isEmpty()}">
                         <h2 class="tm-color-primary tm-post-title">Коментари</h2>
                         <hr class="tm-hr-primary tm-mb-45">
                         <div th:each="rev: ${reviews}" class="tm-comment tm-mb-45">
                             <figure class="tm-comment-figure">
-                                <figcaption class="tm-color-primary text-center" th:text="${rev.getUser().getName()}"></figcaption>
+                                <figcaption class="tm-color-primary text-center"
+                                            th:text="${rev.getUser().getName()}"></figcaption>
                             </figure>
                             <div>
                                 <p th:text="${rev.getText()}">
@@ -210,7 +171,8 @@
                                 <div class="d-flex justify-content-between">
                                     <span class="tm-color-primary" th:text=" ${rev.getDateWritten().getMonth()}"></span>
                                     <span>-</span>
-                                    <span class="tm-color-primary" th:text="${rev.getDateWritten().getDayOfMonth()}"></span>
+                                    <span class="tm-color-primary"
+                                          th:text="${rev.getDateWritten().getDayOfMonth()}"></span>
                                     <span>-</span>
                                     <span class="tm-color-primary" th:text="${rev.getDateWritten().getYear()}"></span>
                                 </div>
@@ -218,8 +180,8 @@
                         </div>
                     </div>
 
-                       <div>
-                           <form action="/books/addReview" method="post" class="mb-5 tm-comment-form">
+                    <div>
+                        <form action="/books/addReview" method="post" class="mb-5 tm-comment-form">
                             <h2 class="tm-color-primary tm-post-title mb-4">Остави коментар</h2>
                             <div class="mb-4">
                                 <input type="text" class="form-control" name="review" rows="6" cols>
@@ -237,9 +199,10 @@
 
                     <hr class="mb-3 tm-hr-primary">
                     <h2 class="tm-mb-40 tm-post-title tm-color-primary">Слични книги</h2>
-                    <a th:href="@{'/books/{id}' (id=${b.getId()})}" class="d-block tm-mb-40" th:each="b: ${relatedBooks}">
+                    <a th:href="@{'/books/{id}' (id=${b.getId()})}" class="d-block tm-mb-40"
+                       th:each="b: ${relatedBooks}">
                         <figure>
-                            <img th:src="${b.getUrl()}" alt="Image" class="mb-3 img-fluid" style="height: 400px;">
+                            <img th:src="${b.getUrl()}" alt="Image" class="mb-3 img-fluid" style="height: 400px; width:250px">
                             <figcaption class="tm-color-primary" th:text="${b.getName()}"></figcaption>
                         </figure>
                     </a>
@@ -250,27 +213,4 @@
 </div>
 <script src="js/jquery.min.js"></script>
 <script src="../static/javascript-jquery.js"></script>
-<script>
-    let stars = document.querySelectorAll(".rating-stars span");
-    stars.forEach(star => {
-        star.addEventListener("click", function (e) {
-            let element = this.previousElementSibling;
-            while(element) {
-                element.classList.remove("selected");
-                element = element.previousElementSibling;
-            }
-
-            element = this.nextElementSibling;
-            while(element) {
-                element.classList.add("selected");
-                element = element.nextElementSibling;
-            }
-
-            this.classList.add("selected");
-
-            let rating = this.getAttribute("data-rating");
-            let input = this.parentElement.querySelector("input");
-        })
-    })
-</script>
 </body>

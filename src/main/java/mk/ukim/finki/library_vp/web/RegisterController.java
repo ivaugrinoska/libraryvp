@@ -2,7 +2,6 @@ package mk.ukim.finki.library_vp.web;
 import mk.ukim.finki.library_vp.model.enumerations.Role;
 import mk.ukim.finki.library_vp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.library_vp.model.exceptions.PasswordsDoNotMatchException;
-import mk.ukim.finki.library_vp.service.AuthService;
 import mk.ukim.finki.library_vp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private final AuthService authService;
     private final UserService userService;
 
-    public RegisterController(AuthService authService, UserService userService) {
-        this.authService = authService;
+    public RegisterController(UserService userService) {
         this.userService = userService;
     }
 

@@ -16,12 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserReadBooksServiceImpl implements UserReadBooksService {
 
-    private final UserReadBooksRepository userReadBooksRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    public UserReadBooksServiceImpl(UserReadBooksRepository userReadBooksRepository, UserRepository userRepository, BookRepository bookRepository) {
-        this.userReadBooksRepository = userReadBooksRepository;
+    public UserReadBooksServiceImpl(UserRepository userRepository, BookRepository bookRepository) {
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
     }

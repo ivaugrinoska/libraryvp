@@ -13,9 +13,7 @@ import java.util.List;
 @Repository
 public interface ReservationCartBooksRepository extends
         JpaRepository<ReservationCartBooks, ReservationCartBooksPK> {
-    List<ReservationCartBooks> removeByResCartId(Long id);
     @Modifying
     @Query("delete from ReservationCartBooks rcb where rcb.resCartId = ?1")
     void deleteReservationCartBooksByResCartId(Long id);
-//    void deleteReservationCartBooksByResCartId(Long id);
 }

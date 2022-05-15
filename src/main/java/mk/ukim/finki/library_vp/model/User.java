@@ -24,7 +24,6 @@ public class User implements UserDetails {
 
     private String surname;
 
-    //mark as read
     @ManyToMany
     private List<Book> readBooks;
 

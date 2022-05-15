@@ -20,9 +20,8 @@ public interface BookService {
 
     List<Book> searchByCategory(Category category);
 
-    List<Book> findFirst10(Category c);
+    List<Book> findFirst3(Category c);
 
-    void markAsRead(Long bookId, User user);
 
     void deleteById(Long id);
 
